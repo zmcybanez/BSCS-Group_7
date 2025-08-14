@@ -1,4 +1,4 @@
-# Group7_AppDev
+# FarmGuide
 
 
 REMINDER:
