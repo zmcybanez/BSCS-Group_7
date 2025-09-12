@@ -193,17 +193,18 @@
             <div class="input-group">
                 <input type="password" name="password" placeholder="Password" required>
             </div>
+
             <button type="submit">Log In</button>
-        </form>
 
-        <div style="width:320px; margin: 0.7rem auto 0; text-align:center;">
-            <span style="color:#555; font-size:0.98rem;">Don’t have an account?</span>
-            <a href="{{ route('register') }}" style="color:#4bbf6b; font-weight:600; text-decoration:none; margin-left:0.3rem;">Register</a>
-        </form>
+            <div style="width:320px; margin: 0.7rem auto 0; text-align:center;">
+                <span style="color:#555; font-size:0.98rem;">Don't have an account?</span>
+                <a href="{{ route('register') }}" style="color:#4bbf6b; font-weight:600; text-decoration:none; margin-left:0.3rem;">Register</a>
+            </div>
 
-        <div class="socials">
-            <a href="{{ route('google.redirect') }}"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"></a>
-        </div>
+            <div class="socials">
+                <a href="{{ route('google.redirect') }}"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"></a>
+            </div>
+        </form>
     </div>
 </div>
 </body>

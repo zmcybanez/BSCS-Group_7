@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id('UserID'); // primary key
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable(); // ✅ added
             $table->string('password');
+            $table->rememberToken(); // ✅ added
             $table->string('role')->default('user');
             $table->timestamps(); // created_at & updated_at
         });

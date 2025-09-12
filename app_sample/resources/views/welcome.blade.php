@@ -808,14 +808,14 @@
                         <div class="contact-icon">📧</div>
                         <div>
                             <h4>Email Us</h4>
-                            <p>support@farmguide.com</p>
+                            <p>glenlaurencelagata@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">📱</div>
                         <div>
                             <h4>Call Us</h4>
-                            <p>+1 (555) 123-4567</p>
+                            <p>+63 951 900 4026</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -844,7 +844,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 Farm Guide. Empowering farmers with knowledge and technology.</p>
+        <p>&copy; 2025 Farm Guide. Empowering farmers with knowledge and technology.</p>
     </footer>
 
     <script>

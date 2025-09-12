@@ -16,10 +16,20 @@ return new class extends Migration
             $table->dateTime('date')->useCurrent();
             $table->unsignedBigInteger('userID');
             $table->unsignedBigInteger('categoryID')->nullable();
+            $table->integer('likes_count')->default(0);
+            $table->integer('comments_count')->default(0);
+            $table->boolean('is_solved')->default(false);
+            $table->string('status')->default('active');
             $table->timestamps();
+            $table->softDeletes(); // Adds deleted_at column
 
             $table->foreign('userID')->references('UserID')->on('users')->onDelete('cascade');
             $table->foreign('categoryID')->references('CategoryID')->on('categories')->onDelete('set null');
+
+            // Add indexes for better performance
+            $table->index('date');
+            $table->index('status');
+            $table->index(['categoryID', 'status']);
         });
     }
 
