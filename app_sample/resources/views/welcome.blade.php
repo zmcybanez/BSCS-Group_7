@@ -705,12 +705,11 @@
             </div>
         </div>
     </nav>
-
-    <!-- Hero Section -->
+        <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-logo">
-                <img src="https://via.placeholder.com/80x80/4bbf6b/ffffff?text=🌾" alt="Farm Guide Logo">
+                <img src="logoo.png" alt="Farm Guide Logo">
             </div>
             <h1>Farm Guide</h1>
             <p>A comprehensive learning tool designed for every farmer at every stage of their journey. Cultivate knowledge, grow success.</p>
