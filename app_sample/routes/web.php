@@ -3,50 +3,61 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\TopicController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/set-password', [ProfileController::class, 'setPassword'])->name('profile.set-password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
+// Include debug routes
+require __DIR__.'/debug.php';
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\MessagesController;
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
     Route::post('/posts/{post}/comment', [\App\Http\Controllers\DashboardController::class, 'comment'])->name('posts.comment');
     Route::post('/posts/{post}/toggle-solved', [\App\Http\Controllers\DashboardController::class, 'toggleSolved'])->name('posts.toggle-solved');
     Route::get('/my-questions', [\App\Http\Controllers\DashboardController::class, 'myQuestions'])->name('my-questions');
-});
+    Route::get('/topics/{slug}', [TopicController::class, 'show'])->name('topics.show');
 
-// Profile and Password Update Routes
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::put('/profile/password', [ProfileController::class   , 'updatePassword'])->name('profile.update.password');
+    // Friends routes
+    Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
+    Route::get('/friends/search', [FriendsController::class, 'search'])->name('friends.search');
+    Route::post('/friends/request', [FriendsController::class, 'sendFriendRequest'])->name('friends.request');
+    Route::post('/friends/accept/{friendship}', [FriendsController::class, 'acceptFriendRequest'])->name('friends.accept');
+    Route::post('/friends/decline/{friendship}', [FriendsController::class, 'declineFriendRequest'])->name('friends.decline');
+    Route::delete('/friends/remove/{friendship}', [FriendsController::class, 'removeFriend'])->name('friends.remove');
+
+    // Messages routes
+    Route::post('/messages/send', [MessagesController::class, 'sendMessage'])->name('messages.send');
+    Route::get('/messages/conversation/{user}', [MessagesController::class, 'getConversation'])->name('messages.conversation');
+    Route::get('/messages/unread-count', [MessagesController::class, 'getUnreadCount'])->name('messages.unread-count');
+
+    // Debug route for logout
+    Route::get('/debug-logout', function() {
+        return response()->json([
+            'user' => auth()->user() ? auth()->user()->name : 'Not logged in',
+            'csrf_token' => csrf_token(),
+            'session_id' => session()->getId()
+        ]);
+    });
+});

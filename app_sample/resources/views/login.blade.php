@@ -2,210 +2,770 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+    <title>Login - Farm Guide</title>
+    <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;600;500;400&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             font-family: 'Montserrat', Arial, sans-serif;
-            background: url("{{ asset('bg.png') }}") no-repeat center center fixed;
+            background-image: url('{{ asset('bg.png') }}');
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            justify-content: center;                                         <div class="benefit-card">
+                            <div class="benefit-icon"><i class="fas fa-chart-bar"></i></div>
+                            <div class="benefit-title">Management Tools</div>
+                            <div class="benefit-desc">Track and optimize your farm</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="benefit-title">Business Growth</div>
+                            <div class="benefit-desc">Scale your farm business</div>
+                        </div>     <div class="benefit-card">
+                            <div class="benefit-icon">📊</div>
+                            <div class="benefit-title">Management Tools</div>
+                            <div class="benefit-desc">Track and optimize your farm</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📈</div>
+                            <div class="benefit-title">Business Growth</div>
+                            <div class="benefit-desc">Scale your farm business</div>
+                        </div>      <div class="benefit-card">
+                            <div class="benefit-icon">📊</div>
+                            <div class="benefit-title">Management Tools</div>
+                            <div class="benefit-desc">Track and optimize your farm</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📈</div>
+                            <div class="benefit-title">Business Growth</div>
+                            <div class="benefit-desc">Scale your farm business</div>
+                        </div>   align-items: center;
+            min-height: 100vh;
+            padding: 2rem 0;
         }
+
         .login-container {
             display: flex;
-            width: 800px;
-            background: rgba(255,255,255,0.18);
-            border-radius: 22px;
+            width: 1000px;
+            max-width: 95%;
+            min-height: 600px;
+            background: transparent;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
         }
+
         .left-side {
-            flex: 1;
-            background: linear-gradient(135deg, #1e4d2b 70%, #4bbf6b 100%);
+            flex: 1.2;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 20px 0 0 20px;
             color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 2.5rem 2rem;
-            box-shadow: 0 0 40px rgba(30,77,43,0.15);
+            align-items: flex-start;
+            padding: 4rem;
             position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
+
+        .left-content {
+            z-index: 2;
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
         .logo-wrapper {
-            background: transparent;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            margin-bottom: 1.2rem;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.10);
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 110px;
-            height: 110px;
-            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         .logo-wrapper img {
-            width: 90px;
-            height: 90px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
-            display: block;
-            margin: 0 auto;
         }
-        .left-side h1 {
-            margin: 0 0 1.2rem;
-            font-size: 3.5rem;
-            font-family: 'Montserrat', Arial, sans-serif;
+
+        .brand-name {
+            font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 0 #fff;
-            background: linear-gradient(90deg, #fff 0%, #b7e4c7 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-fill-color: transparent;
-        }
-        .left-side p {
-            font-size: 1.25rem;
-            text-align: center;
-            font-family: 'Montserrat', Arial, sans-serif;
-            font-weight: 400;
-            color: #e0ffe6;
-            margin-top: 0.5rem;
-            margin-bottom: 0;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.12);
-            letter-spacing: 1px;
-        }
-        .right-side {
-            flex: 1;
-            padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .right-side form {
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            margin: 0 auto;
+            margin: 0;
         }
 
-            color: #333;
-        }
-        .right-side p {
+        .left-side h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.1;
             margin-bottom: 1.5rem;
-            color: #555;
+            background: linear-gradient(135deg, #ffffff 0%, #e8f5e8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+
+        .left-side p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .stats-section {
+            margin: 2.5rem 0;
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 4rem;
+            justify-content: flex-start;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4bbf6b;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .features-section {
+            margin-top: 3rem;
+        }
+
+        .benefits-section {
+            margin-top: 3rem;
+        }
+
+        .benefits-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .benefit-card {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .benefit-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .benefit-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.4;
+        }
+
+        .features-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(75, 191, 107, 0.2);
+            border-radius: 8px;
+        }
+
+        .feature-text {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .learn-more {
+            color: #4bbf6b;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .learn-more:hover {
+            border-bottom-color: #4bbf6b;
+        }
+
+        /* RIGHT SIDE - Login Form */
+        .right-side {
+            flex: 0.8;
+            background: #ffffff;
+            padding: 4rem 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+            border-radius: 0 20px 20px 0;
+            position: relative;
+        }
+
+        .auth-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .register-link {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #0969da;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .register-link:hover {
+            color: #0550ae;
+            text-decoration: underline;
+        }
+
+        .right-side h2 {
+            font-size: 2.5rem;
+            margin: 1.5rem 0 1rem 0;
+            color: #24292f;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            color: #656d76;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: #ffffff;
+            color: #24292f;
+            padding: 15px 20px;
+            border: 1.5px solid #d0d7de;
+            border-radius: 10px;
+            text-decoration: none;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 500;
+            font-size: 15px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            margin-bottom: 2rem;
+        }
+
+        .google-btn:hover {
+            background: #f6f8fa;
+            border-color: #8c959f;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .google-btn img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+            color: #656d76;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #d0d7de;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .right-side form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .input-group {
-            margin-bottom: 1rem;
+            margin-bottom: 0;
             width: 100%;
         }
+
+        .input-group label {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.01em;
+        }
+
         .input-group input {
             width: 100%;
+            height: 48px;
             box-sizing: border-box;
-            padding: 0.9rem 1.1rem;
-            border: 1.5px solid #b7e4c7;
-            border-radius: 22px;
-            font-size: 1.08rem;
-            background: rgba(255,255,255,0.7);
-            transition: border 0.2s;
+            padding: 0 16px;
+            border: 1.5px solid #d0d7de;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 22px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 400;
         }
+
         .input-group input:focus {
-            border: 1.5px solid #4bbf6b;
+            border-color: #0969da;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
+            transform: translateY(-1px);
         }
-        button {
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            border: 1px solid #badbcc;
+            color: #0f5132;
+        }
+
+        .alert-success i {
+            color: #198754;
+        }
+
+        .error-text {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #24292f;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #0969da;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .forgot-password:hover {
+            color: #0550ae;
+            text-decoration: underline;
+        }
+
+        button[type="submit"] {
             width: 100%;
             box-sizing: border-box;
-            padding: 0.9rem 1.1rem;
-            background: linear-gradient(90deg, #1e4d2b 60%, #4bbf6b 100%);
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #2da44e 0%, #2c974b 100%);
             color: #fff;
             border: none;
-            border-radius: 22px;
-            font-size: 1.08rem;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 0.5rem;
-            box-shadow: 0 2px 8px rgba(30,77,43,0.10);
-            transition: background 0.2s, transform 0.15s;
+            margin-top: 1.5rem;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', Arial, sans-serif;
+            letter-spacing: 0.01em;
         }
-        button:hover {
-            background: linear-gradient(90deg, #4bbf6b 0%, #1e4d2b 100%);
-            transform: translateY(-2px) scale(1.03);
+
+        button[type="submit"]:hover {
+            background: linear-gradient(135deg, #2c974b 0%, #2a8f47 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 164, 78, 0.3);
         }
-        button:hover {
-            background-color: #16381f;
+
+        .signup-prompt {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f6f8fa;
+            border-radius: 8px;
+            border: 1px solid #d0d7de;
         }
-        .socials {
-            margin-top: 1.7rem;
-            display: flex;
-            justify-content: center;
-            width: 320px;
-            margin-left: auto;
-            margin-right: auto;
+
+        .signup-prompt span {
+            color: #24292f;
+            font-size: 0.95rem;
         }
-        .socials img {
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            filter: drop-shadow(0 2px 8px rgba(30,77,43,0.10));
+
+        .signup-prompt a {
+            color: #0969da;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .error-list {
+            color: #cf222e;
+            margin-bottom: 2rem;
+            background: #fff8f8;
+            border: 1.5px solid #ffb3ba;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .error-list ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .error-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .login-container {
+                width: 95%;
+                max-width: 900px;
+            }
+            .right-side {
+                padding: 3rem 2.5rem;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .login-container {
+                flex-direction: column;
+                width: 95%;
+                max-width: 600px;
+                min-height: auto;
+            }
+
+            .left-side {
+                padding: 3rem 2.5rem;
+                text-align: center;
+                align-items: center;
+                border-radius: 20px 20px 0 0;
+            }
+
+            .left-content {
+                max-width: none;
+            }
+
+            .left-side h1 {
+                font-size: 2.5rem;
+            }
+
+            .right-side {
+                border-radius: 0 0 20px 20px;
+                padding: 2.5rem 2rem;
+            }
+
+            .right-side h2 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                justify-content: center;
+                gap: 3rem;
+            }
+
+            .features-list {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0;
+            }
+
+            .login-container {
+                margin: 0 1rem;
+            }
+
+            .left-side {
+                padding: 2rem 1.5rem;
+            }
+
+            .left-side h1 {
+                font-size: 2.2rem;
+            }
+
+            .right-side {
+                padding: 2rem 1.5rem;
+            }
+
+            .right-side h2 {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+            }
+
+            .stat-item {
+                text-align: center;
+            }
+
+            .form-footer {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-<div class="login-container">
-    <!-- Left Side -->
-    <div class="left-side">
-        <div class="logo-wrapper">
-            <img src="{{ asset('logo2.png') }}" alt="Farm Guide Logo">
+    <div class="login-container">
+        <!-- Left Side -->
+        <div class="left-side">
+            <div class="left-content">
+
+                <h1>Welcome back to Farm Guide</h1>
+                <p>Connect with thousands of farmers and access expert resources to grow your agricultural business.</p>
+
+                <div class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">15K+</span>
+                            <span class="stat-label">Active Farmers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">850+</span>
+                            <span class="stat-label">Expert Articles</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="benefits-section">
+                    <div class="benefits-title">What you'll get:</div>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🌱</div>
+                            <div class="benefit-title">Sustainable Practices</div>
+                            <div class="benefit-desc">Learn eco-friendly farming methods</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">👥</div>
+                            <div class="benefit-title">Expert Network</div>
+                            <div class="benefit-desc">Connect with experienced farmers</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📊</div>
+                            <div class="benefit-title">Management Tools</div>
+                            <div class="benefit-desc">Track and optimize your farm</div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📈</div>
+                            <div class="benefit-title">Business Growth</div>
+                            <div class="benefit-desc">Scale your farm business</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h1>Farm Guide</h1>
-        <p>A learning tool for every farmer at every age.</p>
+
+        <!-- Right Side -->
+        <div class="right-side">
+            <div class="auth-header">
+                <a href="{{ route('register') }}" class="register-link">New to Farm Guide? Sign up →</a>
+            </div>
+
+            <h2>Welcome Back</h2>
+            <p class="welcome-text">Sign in to your Farm Guide account</p>
+
+            <a href="{{ route('google.redirect') }}" class="google-btn">
+                <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+                Continue with Google
+            </a>
+
+            <div class="divider">
+                <span>or</span>
+            </div>
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" required>
+                    @error('email')
+                        <span class="error-text">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required>
+                    @error('password')
+                        <span class="error-text">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="form-footer">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <button type="submit">Sign In</button>
+            </form>
+
+            <div class="signup-prompt">
+                <span>Don't have an account?</span>
+                <a href="{{ route('register') }}">Create your Farm Guide account</a>
+            </div>
+        </div>
     </div>
-
-    <!-- Right Side -->
-    <div class="right-side">
-        <h2>Welcome</h2>
-        <p>Log in to your account to continue</p>
-
-        @if ($errors->any())
-            <div style="color:red; margin-bottom:1rem;">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="input-group">
-                <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required autofocus>
-            </div>
-            <div class="input-group">
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
-
-            <button type="submit">Log In</button>
-
-            <div style="width:320px; margin: 0.7rem auto 0; text-align:center;">
-                <span style="color:#555; font-size:0.98rem;">Don't have an account?</span>
-                <a href="{{ route('register') }}" style="color:#4bbf6b; font-weight:600; text-decoration:none; margin-left:0.3rem;">Register</a>
-            </div>
-
-            <div class="socials">
-                <a href="{{ route('google.redirect') }}"><img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"></a>
-            </div>
-        </form>
-    </div>
-</div>
 </body>
 </html>

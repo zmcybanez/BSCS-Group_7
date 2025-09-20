@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,7 +15,17 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        return view('profile.edit', compact('user'));
+
+        // Calculate user statistics
+        $questionsAsked = Post::where('userID', Auth::id())
+            ->where('status', 'active')
+            ->count();
+
+        $answersGiven = Comment::where('userID', Auth::id())
+            ->where('status', 'active')
+            ->count();
+
+        return view('profile.edit', compact('user', 'questionsAsked', 'answersGiven'));
     }
 
     // Update profile info
@@ -27,7 +39,7 @@ class ProfileController extends Controller
             'location' => ['nullable', 'string', 'max:255'],
             'farm_type' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
-            'profile_picture' => ['nullable', 'image', 'max:2048'], // max 2MB
+            'profile_picture' => ['nullable', 'image', 'max:5120'], // max 5MB
         ]);
 
         $user->name = $request->name;
@@ -46,11 +58,16 @@ class ProfileController extends Controller
             }
 
             $user->profile_picture = $path;
+            \Log::info('Profile picture uploaded: ' . $path . ' for user: ' . $user->UserID);
         }
 
         $user->save();
+        \Log::info('User saved with profile_picture: ' . ($user->profile_picture ?? 'NULL'));
+        
+        // Refresh the user model to ensure latest data is loaded
+        $user->refresh();
 
-        return redirect('/profile')->with('success', 'Profile updated successfully!');
+        return redirect()->route('profile.edit')->with('success', 'Profile updated successfully!');
     }
 
     // Update password
@@ -70,6 +87,28 @@ class ProfileController extends Controller
         ]);
 
         return back()->with('success', 'Password updated successfully!');
+    }
+
+    // Set password for Google users (who don't have one)
+    public function setPassword(Request $request)
+    {
+        $user = Auth::user();
+
+        // Only allow if user doesn't have a password (Google users)
+        if ($user->has_password) {
+            return back()->with('error', 'You already have a password. Use the update password form instead.');
+        }
+
+        $request->validate([
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password),
+            'has_password' => true,
+        ]);
+
+        return back()->with('success', 'Password set successfully! You can now login manually with your email and password.');
     }
 
     // Delete account

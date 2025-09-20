@@ -50,14 +50,29 @@ class GoogleController extends Controller
     {
         $googleUser = Socialite::driver('google')->user();
 
-        // Find or create user
-        $user = User::firstOrCreate(
-            ['email' => $googleUser->getEmail()],
-            [
+        // Find existing user or create new one
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if ($user) {
+            // User exists - update their Google info if they signed up via email originally
+            if ($user->auth_provider === 'email') {
+                $user->update([
+                    'google_id' => $googleUser->getId(),
+                    'auth_provider' => 'google', // Switch to Google auth
+                    'has_password' => false, // They'll need to set a password for manual login
+                ]);
+            }
+        } else {
+            // Create new user
+            $user = User::create([
                 'name' => $googleUser->getName(),
-                'password' => bcrypt(str()->random(16)),
-            ]
-        );
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'auth_provider' => 'google',
+                'has_password' => false,
+                'password' => null, // No password for Google users initially
+            ]);
+        }
 
         Auth::login($user);
 

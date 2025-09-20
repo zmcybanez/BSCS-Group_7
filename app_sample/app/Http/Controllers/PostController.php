@@ -15,8 +15,15 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category' => 'required|exists:categories,name',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120' // 5MB = 5120KB
         ]);
+
+        // Validate maximum 5 images
+        if ($request->hasFile('images') && count($request->file('images')) > 5) {
+            return redirect()->back()
+                ->withErrors(['images' => 'You can upload maximum 5 images.'])
+                ->withInput();
+        }
 
         $category = Category::where('name', $validated['category'])->firstOrFail();
 
@@ -27,11 +34,18 @@ class PostController extends Controller
             'categoryID' => $category->id,
             'date' => now(),
             'published_at' => now(),
+            'status' => 'active',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
-            $post->imgSrc = $imagePath;
+        // Handle multiple image uploads
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('posts', 'public');
+                $imagePaths[] = $imagePath;
+            }
+            // Store image paths as JSON
+            $post->imgSrc = json_encode($imagePaths);
         }
 
         $post->save();

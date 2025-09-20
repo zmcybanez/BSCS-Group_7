@@ -40,7 +40,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'auth_provider',
+        'has_password',
         'role', // ✅ since you added role in migration
+        'profile_picture',
+        'location',
+        'farm_type',
+        'bio',
     ];
 
     /**
@@ -63,5 +70,48 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+
+    // Relationships
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'userID', 'UserID');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'userID', 'UserID');
+    }
+
+    // Friendship relationships - proper Eloquent approach
+    public function friendships()
+    {
+        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+    }
+
+    public function friendshipsAsAddressee()
+    {
+        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+    }
+
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+    }
+
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+    }
+
+    // Message relationships
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id', 'UserID');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id', 'UserID');
     }
 }

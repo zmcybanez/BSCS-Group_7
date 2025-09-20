@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farm Guide - Homepage</title>
+    <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -470,34 +471,42 @@
 
         .stat h3 {
             font-size: 2.5rem;
-            color: #4bbf6b;
+            color: #ffffff;
             margin-bottom: 0.5rem;
             font-weight: 800;
         }
 
         .stat p {
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
             font-size: 1rem;
             margin: 0;
         }
 
         .mission {
-            background: rgba(75, 191, 107, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(75, 191, 107, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .mission h3 {
-            color: #4bbf6b;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         .mission p {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            color: #ffffff;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            font-weight: 500;
         }
 
         /* Contact Section */
@@ -710,7 +719,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-logo">
-                <img src="https://via.placeholder.com/80x80/4bbf6b/ffffff?text=🌾" alt="Farm Guide Logo">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide Logo">
             </div>
             <h1>Farm Guide</h1>
             <p>A comprehensive learning tool designed for every farmer at every stage of their journey. Cultivate knowledge, grow success.</p>
