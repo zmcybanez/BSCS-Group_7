@@ -14,7 +14,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|exists:categories,name',
+            'category_id' => 'required|exists:categories,CategoryID',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120' // 5MB = 5120KB
         ]);
 
@@ -25,15 +25,12 @@ class PostController extends Controller
                 ->withInput();
         }
 
-        $category = Category::where('name', $validated['category'])->firstOrFail();
-
         $post = new Post([
             'title' => $validated['title'],
             'content' => $validated['content'],
             'userID' => auth()->id(),
-            'categoryID' => $category->id,
+            'categoryID' => $validated['category_id'],
             'date' => now(),
-            'published_at' => now(),
             'status' => 'active',
         ]);
 

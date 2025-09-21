@@ -703,7 +703,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo-nav">
-                <img src="logo2.png" alt="Farm Guide">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide">
                 Farm Guide
             </a>
             <div class="nav-links">

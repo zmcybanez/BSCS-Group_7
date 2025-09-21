@@ -9,6 +9,13 @@ class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'CategoryID';
+
     protected $fillable = [
         'name',
         'description',

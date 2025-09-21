@@ -7,6 +7,9 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
@@ -31,22 +34,73 @@ class ProfileController extends Controller
     // Update profile info
     public function update(Request $request)
     {
-        $user = Auth::user();
+        $isAjaxUpload = $request->ajax() || $request->wantsJson() || $request->has('ajax_upload');
 
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->UserID . ',UserID'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'farm_type' => ['nullable', 'string', 'max:255'],
-            'bio' => ['nullable', 'string'],
-            'profile_picture' => ['nullable', 'image', 'max:5120'], // max 5MB
+        Log::info('Profile update called', [
+            'is_ajax' => $request->ajax(),
+            'wants_json' => $request->wantsJson(),
+            'has_ajax_upload' => $request->has('ajax_upload'),
+            'is_ajax_upload' => $isAjaxUpload,
+            'has_file' => $request->hasFile('profile_picture'),
+            'content_type' => $request->header('Content-Type'),
+            'method' => $request->method()
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->location = $request->location;
-        $user->farm_type = $request->farm_type;
-        $user->bio = $request->bio;
+        try {
+            $user = Auth::user();
+
+            // If it's just a profile picture upload, handle it separately with minimal validation
+            if ($isAjaxUpload && $request->hasFile('profile_picture') && !$request->filled('name')) {
+                $request->validate([
+                    'profile_picture' => ['required', 'image', 'max:5120'], // max 5MB
+                ]);
+
+                $file = $request->file('profile_picture');
+                $path = $file->store('profile_pictures', 'public');
+
+                // Optionally delete old profile picture if exists
+                if ($user->profile_picture) {
+                    Storage::disk('public')->delete($user->profile_picture);
+                }
+
+                $user->profile_picture = $path;
+                $user->save();
+
+                Log::info('Profile picture uploaded successfully', ['path' => $path, 'user' => $user->UserID]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Profile picture updated successfully!',
+                    'profile_picture' => asset('storage/' . $path)
+                ]);
+            }
+
+            // Handle full profile update
+            $validator = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->UserID . ',UserID'],
+                'location' => ['nullable', 'string', 'max:255'],
+                'farm_type' => ['nullable', 'string', 'max:255'],
+                'bio' => ['nullable', 'string'],
+                'profile_picture' => ['nullable', 'image', 'max:5120'], // max 5MB
+            ]);
+
+            if ($validator->fails()) {
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Validation failed',
+                        'errors' => $validator->errors()
+                    ], 422);
+                }
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $user->name = $request->name ?? $user->name;
+            $user->email = $request->email ?? $user->email;
+            $user->location = $request->location;
+            $user->farm_type = $request->farm_type;
+            $user->bio = $request->bio;
 
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
@@ -54,20 +108,46 @@ class ProfileController extends Controller
 
             // Optionally delete old profile picture if exists
             if ($user->profile_picture) {
-                \Storage::disk('public')->delete($user->profile_picture);
+                Storage::disk('public')->delete($user->profile_picture);
             }
 
             $user->profile_picture = $path;
-            \Log::info('Profile picture uploaded: ' . $path . ' for user: ' . $user->UserID);
+            Log::info('Profile picture uploaded: ' . $path . ' for user: ' . $user->UserID);
         }
 
         $user->save();
-        \Log::info('User saved with profile_picture: ' . ($user->profile_picture ?? 'NULL'));
-        
+        Log::info('User saved with profile_picture: ' . ($user->profile_picture ?? 'NULL'));
+
         // Refresh the user model to ensure latest data is loaded
         $user->refresh();
 
+        // Check if it's an AJAX request (for profile picture upload)
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully!',
+                'profile_picture' => $user->profile_picture ? asset('storage/' . $user->profile_picture) : null
+            ]);
+        }
+
         return redirect()->route('profile.edit')->with('success', 'Profile updated successfully!');
+
+        } catch (\Exception $e) {
+            Log::error('Profile update error: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error updating profile: ' . $e->getMessage()
+                ], 500);
+            }
+
+            return back()->with('error', 'Error updating profile. Please try again.');
+        }
     }
 
     // Update password

@@ -24,12 +24,10 @@ class Post extends Model
         'comments_count',
         'is_solved',
         'status',
-        'published_at',
     ];
 
     protected $casts = [
         'date' => 'datetime',
-        'published_at' => 'datetime',
         'is_solved' => 'boolean',
     ];
 
