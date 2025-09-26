@@ -701,6 +701,7 @@
                 <a href="#features">Features</a>
                 <a href="#about">About</a>
                 <a href="#contact">Contact</a>
+                <a href="{{ route('photobooth') }}" style="color: #6ecf87; font-weight: 600;">📸 Photobooth</a>
                 <button class="login-btn" onclick="window.location.href='{{ route('login') }}'">Login</button>
             </div>
         </div>

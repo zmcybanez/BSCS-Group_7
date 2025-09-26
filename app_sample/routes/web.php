@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\PhotoboothController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,3 +31,8 @@ Route::get('/register', function () {
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
+// Photobooth routes
+Route::get('/photobooth', [PhotoboothController::class, 'index'])->name('photobooth');
+Route::post('/photobooth/capture', [PhotoboothController::class, 'capture'])->name('photobooth.capture');
+Route::get('/photobooth/gallery', [PhotoboothController::class, 'gallery'])->name('photobooth.gallery');
