@@ -51,6 +51,8 @@
             --btn-primary-hover: #3a6319;
             --btn-secondary-bg: #6c757d;
             --btn-secondary-hover: #545b62;
+            --secondary-text: #666;
+            --muted-text: #888;
         }
 
         [data-theme="dark"] {
@@ -95,6 +97,8 @@
             --btn-primary-hover: #7ab087;
             --btn-secondary-bg: #4a5568;
             --btn-secondary-hover: #3a424f;
+            --secondary-text: #a0aec0;
+            --muted-text: #718096;
         }
 
         * {
@@ -186,6 +190,231 @@
         .nav-button.logout:hover {
             background: rgba(220,53,69,0.3);
             border-color: rgba(220,53,69,0.5);
+        }
+
+        /* Search Container */
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            margin-right: 1rem;
+            min-width: 200px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.7rem 1rem 0.7rem 2.5rem;
+            border: 2px solid var(--search-bg);
+            border-radius: 25px;
+            background: var(--search-bg);
+            color: var(--search-text);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar::placeholder {
+            color: var(--search-placeholder);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: var(--search-focus-bg);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--search-icon);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        /* Global Search Dropdown */
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            z-index: 999;
+            display: none;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .search-section {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .search-section:last-child {
+            border-bottom: none;
+        }
+
+        .search-section-header {
+            padding: 0.75rem 1rem;
+            background: rgba(74, 124, 35, 0.05);
+            font-weight: 600;
+            color: var(--subheading-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .search-result-item:hover {
+            background: var(--post-hover-bg);
+        }
+
+        .search-result-icon {
+            color: var(--subheading-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .search-result-content {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .search-result-description {
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .search-no-results {
+            padding: 2rem;
+            text-align: center;
+            color: var(--empty-state-text);
+        }
+
+        .search-no-results i {
+            font-size: 2rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Notifications Dropdown */
+        .notifications-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .notifications-dropdown.show {
+            display: block;
+        }
+
+        .notifications-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            font-weight: 600;
+            color: var(--heading-color);
+            font-size: 1.1rem;
+        }
+
+        .notification-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .notification-item:hover {
+            background: var(--post-hover-bg);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .notification-icon {
+            color: var(--subheading-color);
+            font-size: 1.2rem;
+            margin-top: 0.2rem;
+        }
+
+        .notification-text {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-description {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .notification-time {
+            color: var(--muted-text);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .empty-notifications {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--empty-state-text);
+        }
+
+        .empty-notifications i {
+            font-size: 2rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 0.5rem;
         }
 
         /* Secondary Navbar */
@@ -592,11 +821,115 @@
         </div>
 
         <div class="nav-right">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchInput" placeholder="Search anything...">
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-section">
+                        <div class="search-section-header">Search Users</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">John Smith</div>
+                                <div class="search-result-description">Organic farming specialist • 500+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Maria Garcia</div>
+                                <div class="search-result-description">Sustainable agriculture expert • 320+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">David Chen</div>
+                                <div class="search-result-description">Crop rotation specialist • 250+ posts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Recent Posts</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-leaf search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Best Organic Fertilizers for Tomatoes</div>
+                                <div class="search-result-description">By John Smith • 2 hours ago • 15 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-seedling search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Water Conservation Tips</div>
+                                <div class="search-result-description">By Maria Garcia • 5 hours ago • 28 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-tractor search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Equipment Maintenance Guide</div>
+                                <div class="search-result-description">By David Chen • 1 day ago • 42 likes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Quick Actions</div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('dashboard') }}'">
+                            <i class="fas fa-home search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Dashboard</div>
+                                <div class="search-result-description">View your farming dashboard</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('friends') }}'">
+                            <i class="fas fa-users search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Friends & Network</div>
+                                <div class="search-result-description">Connect with other farmers</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Profile Settings</div>
+                        <div class="search-result-item" onclick="document.getElementById('profileForm').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-user-edit search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Edit Profile</div>
+                                <div class="search-result-description">Update your personal information</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item" onclick="document.getElementById('passwordForm').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-key search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Change Password</div>
+                                <div class="search-result-description">Update your account security</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notifications-container">
+                <button type="button" class="nav-button" id="notificationsToggle">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <i class="fas fa-bell"></i> Notifications
+                    </div>
+                    <div class="empty-notifications">
+                        <div><i class="fas fa-bell-slash"></i></div>
+                        <div>No notifications yet</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">You'll see notifications here when you have them</div>
+                    </div>
+                </div>
+            </div>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="nav-button logout">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
                 </button>
             </form>
         </div>
@@ -806,8 +1139,6 @@
                 <ul class="sidebar-list">
                     <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
                     <li><a href="{{ route('friends') }}"><i class="fas fa-users"></i> My Friends</a></li>
-                    <li><a href="#" onclick="alert('Feature coming soon!')"><i class="fas fa-chart-line"></i> My Activity</a></li>
-                    <li><a href="#" onclick="alert('Feature coming soon!')"><i class="fas fa-bell"></i> Notifications</a></li>
                 </ul>
             </div>
 
@@ -901,6 +1232,65 @@
                 });
             }
         }
+
+        // Notifications dropdown functionality
+        const notificationsToggle = document.getElementById('notificationsToggle');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+
+        notificationsToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            notificationsDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationsToggle.contains(e.target) && !notificationsDropdown.contains(e.target)) {
+                notificationsDropdown.classList.remove('show');
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        notificationsDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Global Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchDropdown = document.getElementById('searchDropdown');
+
+        searchInput.addEventListener('focus', function() {
+            searchDropdown.classList.add('show');
+        });
+
+        searchInput.addEventListener('blur', function() {
+            // Delay hiding to allow clicks on dropdown items
+            setTimeout(() => {
+                searchDropdown.classList.remove('show');
+            }, 200);
+        });
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = searchDropdown.querySelectorAll('.search-result-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('.search-result-title').textContent.toLowerCase();
+                const description = item.querySelector('.search-result-description').textContent.toLowerCase();
+
+                if (title.includes(query) || description.includes(query) || query === '') {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Close search dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                searchDropdown.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>

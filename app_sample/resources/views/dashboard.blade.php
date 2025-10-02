@@ -51,6 +51,7 @@
             --search-dropdown-border: #e1e5e9;
             --search-dropdown-header-bg: #f8f9fa;
             --search-dropdown-header-color: #333;
+            --secondary-text: #666;
         }
 
         [data-theme="dark"] {
@@ -95,6 +96,7 @@
             --search-dropdown-border: #4a5568;
             --search-dropdown-header-bg: #4a5568;
             --search-dropdown-header-color: #e2e8f0;
+            --secondary-text: #a0aec0;
         }
 
         * {
@@ -191,6 +193,92 @@
             background: #d73027;
         }
 
+        /* Notifications Dropdown */
+        .notifications-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1);
+            width: 350px;
+            max-height: 450px;
+            overflow: hidden;
+            z-index: 1000;
+            display: none;
+            margin-top: 0.75rem;
+            backdrop-filter: blur(25px);
+            transform: translateY(-10px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notifications-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-bottom: none;
+            border-right: none;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        .notifications-dropdown.show {
+            display: block;
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .notifications-header {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--card-border);
+            font-weight: 700;
+            color: var(--heading-color);
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--card-bg), rgba(74, 124, 35, 0.02));
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notifications-header i {
+            color: var(--subheading-color);
+            font-size: 1.2rem;
+        }
+
+        .empty-notifications {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--empty-state-text);
+        }
+
+        .empty-notifications i {
+            font-size: 3rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .empty-notifications > div:first-child {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
+        }
+
         /* Search Container */
         .search-container {
             position: relative;
@@ -246,14 +334,85 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: var(--search-dropdown-bg);
-            border: 2px solid var(--search-dropdown-border);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-            z-index: 1000;
+            z-index: 999;
             display: none;
-            max-height: 300px;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
             overflow-y: auto;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .search-section {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .search-section:last-child {
+            border-bottom: none;
+        }
+
+        .search-section-header {
+            padding: 0.75rem 1rem;
+            background: rgba(74, 124, 35, 0.05);
+            font-weight: 600;
+            color: var(--subheading-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .search-result-item:hover {
+            background: var(--post-hover-bg);
+        }
+
+        .search-result-icon {
+            color: var(--subheading-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .search-result-content {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .search-result-description {
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        .search-no-results {
+            padding: 2rem;
+            text-align: center;
+            color: var(--empty-state-text);
+        }
+
+        .search-no-results i {
+            font-size: 2rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 0.5rem;
         }
 
         .search-dropdown-header {
@@ -341,6 +500,91 @@
             border: 1px solid var(--card-border);
             position: relative;
             overflow: hidden;
+        }
+
+        /* Weather Card */
+        .weather-card {
+            background: var(--card-bg);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 8px 32px var(--card-shadow);
+            border: 1px solid var(--card-border);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1rem;
+        }
+        .weather-left {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            min-width: 0;
+        }
+        .weather-icon {
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(74,124,35,0.15), rgba(144,198,149,0.15));
+            color: var(--heading-color);
+        }
+        .weather-title {
+            font-weight: 700;
+            color: var(--heading-color);
+            line-height: 1.2;
+        }
+        .weather-location {
+            font-size: 0.9rem;
+            color: var(--welcome-subtext);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .weather-controls {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .weather-relocate {
+            background: var(--secondary-nav-button-bg);
+            border: 1px solid var(--secondary-nav-button-border);
+            color: var(--secondary-nav-button-color);
+            border-radius: 20px;
+            padding: .25rem .55rem;
+            font-size: .8rem;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .weather-relocate:hover {
+            background: var(--secondary-nav-button-hover-bg);
+        }
+        .weather-setloc, .weather-clearloc {
+            background: transparent;
+            border: 1px dashed var(--secondary-nav-button-border);
+            color: var(--secondary-nav-button-color);
+            border-radius: 20px;
+            padding: .25rem .55rem;
+            font-size: .8rem;
+            cursor: pointer;
+        }
+        .weather-setloc:hover, .weather-clearloc:hover{
+            background: var(--secondary-nav-button-hover-bg);
+        }
+        .weather-right {
+            text-align: right;
+        }
+        .weather-temp {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--welcome-text);
+            line-height: 1;
+        }
+        .weather-meta {
+            font-size: 0.9rem;
+            color: var(--welcome-subtext);
         }
 
         .welcome-card::before {
@@ -968,13 +1212,114 @@
             <!-- Search Bar moved to nav-right -->
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-bar" id="searchInput" placeholder="Search farmers, topics, or questions...">
+                <input type="text" class="search-bar" id="searchInput" placeholder="Search anything...">
 
-                <!-- Search Dropdown -->
+                <!-- Global Search Dropdown -->
                 <div class="search-dropdown" id="searchDropdown">
-                    <div class="search-dropdown-header">Farmers & Experts</div>
-                    <div id="searchDropdownResults">
-                        <!-- Search results will be populated here -->
+                    <div class="search-section">
+                        <div class="search-section-header">Search Users</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">John Smith</div>
+                                <div class="search-result-description">Organic farming specialist • 500+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Maria Garcia</div>
+                                <div class="search-result-description">Sustainable agriculture expert • 320+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">David Chen</div>
+                                <div class="search-result-description">Crop rotation specialist • 250+ posts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Recent Posts</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-leaf search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Best Organic Fertilizers for Tomatoes</div>
+                                <div class="search-result-description">By John Smith • 2 hours ago • 15 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-seedling search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Water Conservation Tips for Dry Seasons</div>
+                                <div class="search-result-description">By Maria Garcia • 5 hours ago • 28 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-tractor search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Equipment Maintenance Guide</div>
+                                <div class="search-result-description">By David Chen • 1 day ago • 42 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-bug search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Natural Pest Control Methods</div>
+                                <div class="search-result-description">By Sarah Johnson • 2 days ago • 67 likes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Navigation</div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('friends') }}'">
+                            <i class="fas fa-users search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Friends & Network</div>
+                                <div class="search-result-description">Connect with other farmers and experts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('profile.edit') }}'">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Profile Settings</div>
+                                <div class="search-result-description">Manage your account and preferences</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Dashboard Actions</div>
+                        <div class="search-result-item" onclick="document.getElementById('postsSection').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-comments search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Community Posts</div>
+                                <div class="search-result-description">View and interact with farming discussions</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item" onclick="document.getElementById('createPost').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-plus search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Create New Post</div>
+                                <div class="search-result-description">Share your farming knowledge and questions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notifications-container">
+                <button type="button" class="nav-button" id="notificationsToggle">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <i class="fas fa-bell"></i> Notifications
+                    </div>
+                    <div class="empty-notifications">
+                        <div><i class="fas fa-bell-slash"></i></div>
+                        <div>No notifications yet</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">You'll see notifications here when you have them</div>
                     </div>
                 </div>
             </div>
@@ -983,7 +1328,6 @@
                 @csrf
                 <button type="submit" class="nav-button logout">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
                 </button>
             </form>
         </div>
@@ -1011,6 +1355,35 @@
 
     <div class="container">
         <div class="main-content">
+            <!-- Weather (Today) -->
+            <div id="weatherCard" class="weather-card" aria-live="polite">
+                <div class="weather-left">
+                    <div class="weather-icon"><i id="weatherIcon" class="fa-solid fa-cloud-sun"></i></div>
+                    <div>
+                        <div class="weather-title">Today's Weather</div>
+                        <div class="weather-controls">
+                            <div id="weatherLocation" class="weather-location">Detecting location…</div>
+                            <button id="weatherRelocate" class="weather-relocate" type="button" title="Use precise location">
+                                <i class="fa-solid fa-location-crosshairs"></i>
+                            </button>
+                            <button id="weatherSetLoc" class="weather-setloc" type="button" title="Set location (city or lat,lon)">
+                                <i class="fa-solid fa-thumbtack"></i>
+                            </button>
+                            <button id="weatherClearLoc" class="weather-clearloc" type="button" title="Clear saved location">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="weather-right">
+                    <div id="weatherTemp" class="weather-temp">--°C</div>
+                    <div class="weather-meta">
+                        <span id="weatherDesc">Loading…</span>
+                        <span id="weatherRange" style="margin-left:.5rem">H:--° L:--°</span>
+                        <span id="weatherExtra" style="margin-left:.5rem">Rain: --% · Wind: -- km/h</span>
+                    </div>
+                </div>
+            </div>
             <!-- Welcome -->
             <div class="welcome-card">
                 <h1>Welcome, {{ Auth::user()->name }}!</h1>
@@ -1161,6 +1534,287 @@
             });
         });
 
+        // Weather widget (client-side, no API key; uses Open-Meteo)
+        (function initWeather(){
+            const el = {
+                card: document.getElementById('weatherCard'),
+                icon: document.getElementById('weatherIcon'),
+                temp: document.getElementById('weatherTemp'),
+                desc: document.getElementById('weatherDesc'),
+                range: document.getElementById('weatherRange'),
+                extra: document.getElementById('weatherExtra'),
+                loc: document.getElementById('weatherLocation'),
+                locateBtn: document.getElementById('weatherRelocate'),
+            };
+
+            if (!el.card) return;
+
+            const fallback = { lat: 14.5995, lon: 120.9842, name: 'Manila, PH' };
+
+            // Restore last known data immediately to avoid flicker
+            try {
+                const cached = JSON.parse(localStorage.getItem('weather:last'));
+                if (cached && Date.now() - cached.time < 30 * 60 * 1000) { // 30 mins
+                    el.temp.textContent = cached.temp;
+                    el.desc.textContent = cached.desc;
+                    el.range.textContent = cached.range || '';
+                    el.extra.textContent = cached.extra || '';
+                    el.loc.textContent = cached.loc || '';
+                    if (cached.icon) el.icon.className = 'fa-solid ' + cached.icon;
+                    if (cached.title) el.loc.title = cached.title;
+                }
+            } catch {}
+
+            // If user saved a manual location, use it first
+            try {
+                const manual = JSON.parse(localStorage.getItem('weather:manual'));
+                if (manual && typeof manual.lat === 'number' && typeof manual.lon === 'number'){
+                    el.loc.textContent = manual.label || 'Saved location';
+                    update(manual.lat, manual.lon, manual.label);
+                }
+            } catch {}
+
+            const codeMap = {
+                0: {t:'Clear sky', i:'fa-sun'},
+                1: {t:'Mainly clear', i:'fa-sun'},
+                2: {t:'Partly cloudy', i:'fa-cloud-sun'},
+                3: {t:'Overcast', i:'fa-cloud'},
+                45:{t:'Fog', i:'fa-smog'},
+                48:{t:'Depositing rime fog', i:'fa-smog'},
+                51:{t:'Light drizzle', i:'fa-cloud-rain'},
+                53:{t:'Drizzle', i:'fa-cloud-rain'},
+                55:{t:'Heavy drizzle', i:'fa-cloud-showers-heavy'},
+                56:{t:'Freezing drizzle', i:'fa-snowflake'},
+                57:{t:'Freezing drizzle', i:'fa-snowflake'},
+                61:{t:'Light rain', i:'fa-cloud-rain'},
+                63:{t:'Rain', i:'fa-cloud-rain'},
+                65:{t:'Heavy rain', i:'fa-cloud-showers-heavy'},
+                66:{t:'Freezing rain', i:'fa-snowflake'},
+                67:{t:'Freezing rain', i:'fa-snowflake'},
+                71:{t:'Light snow', i:'fa-snowflake'},
+                73:{t:'Snow', i:'fa-snowflake'},
+                75:{t:'Heavy snow', i:'fa-snowflake'},
+                77:{t:'Snow grains', i:'fa-snowflake'},
+                80:{t:'Rain showers', i:'fa-cloud-showers-heavy'},
+                81:{t:'Rain showers', i:'fa-cloud-showers-heavy'},
+                82:{t:'Violent rain showers', i:'fa-cloud-showers-heavy'},
+                85:{t:'Snow showers', i:'fa-snowflake'},
+                86:{t:'Snow showers', i:'fa-snowflake'},
+                95:{t:'Thunderstorm', i:'fa-cloud-bolt'},
+                96:{t:'Thunderstorm w/ hail', i:'fa-cloud-bolt'},
+                99:{t:'Thunderstorm w/ hail', i:'fa-cloud-bolt'}
+            };
+
+            function setIcon(code){
+                const item = codeMap[code] || {t:'Weather', i:'fa-cloud'};
+                el.icon.className = 'fa-solid ' + item.i;
+                return item.t;
+            }
+
+            async function reverseGeocode(lat, lon){
+                // Try BigDataCloud for precise admin/locality naming. No API key for this endpoint.
+                try {
+                    const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`; // no key
+                    const r = await fetch(url, { cache: 'no-store' });
+                    if (r.ok) {
+                        const j = await r.json();
+                        // Prefer municipality/city then province; normalize Cotabato naming
+                        let city = j.localityInfo?.locality?.name || j.city || j.locality || j.localityInfo?.administrative?.[0]?.name;
+                        let province = j.principalSubdivision || j.localityInfo?.administrative?.find(a => a.adminLevel === 4)?.name;
+                        if (province) {
+                            // Normalize 'North Cotabato'/'Cotabato' variants
+                            province = province.replace(/^Cotabato \(North Cotabato\)$/i, 'Cotabato')
+                                               .replace(/^North Cotabato$/i, 'Cotabato');
+                        }
+                        const parts = [city, province, j.countryCode].filter(Boolean);
+                        const name = parts.filter(Boolean).join(', ');
+                        if (name) return name;
+                    }
+                } catch {}
+                // Fallback to Open‑Meteo geocoder
+                try {
+                    const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=en&format=json`;
+                    const r = await fetch(url, { cache: 'no-store' });
+                    const j = await r.json();
+                    if (j && Array.isArray(j.results) && j.results.length){
+                        const best = j.results[0];
+                        let city = best.city || best.name;
+                        let admin = best.admin1;
+                        if (admin) admin = admin.replace(/^Cotabato \(North Cotabato\)$/i, 'Cotabato').replace(/^North Cotabato$/i, 'Cotabato');
+                        const parts = [city, admin, best.country_code].filter(Boolean);
+                        return parts.slice(0,2).join(', ') + (best.country_code ? ` ${best.country_code}` : '');
+                    }
+                } catch {}
+                return null;
+            }
+
+            async function fetchWeather(lat, lon){
+                const base = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=auto&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max`;
+                try {
+                    // Prefer new API fields
+                    let url = base + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m`;
+                    let r = await fetch(url, { cache: 'no-store' });
+                    if (!r.ok) throw new Error('bad status');
+                    let j = await r.json();
+                    if (!j.current) throw new Error('missing current');
+                    return {
+                        temp: j.current.temperature_2m,
+                        code: j.current.weather_code,
+                        wind: j.current.wind_speed_10m,
+                        humidity: j.current.relative_humidity_2m,
+                        tMax: j.daily?.temperature_2m_max?.[0],
+                        tMin: j.daily?.temperature_2m_min?.[0],
+                        rain: j.daily?.precipitation_probability_max?.[0]
+                    };
+                } catch {
+                    // Fallback to legacy current_weather
+                    const url = base + `&current_weather=true`;
+                    const r = await fetch(url, { cache: 'no-store' });
+                    const j = await r.json();
+                    return {
+                        temp: j.current_weather?.temperature,
+                        code: j.current_weather?.weathercode,
+                        wind: j.current_weather?.windspeed,
+                        humidity: undefined,
+                        tMax: j.daily?.temperature_2m_max?.[0],
+                        tMin: j.daily?.temperature_2m_min?.[0],
+                        rain: j.daily?.precipitation_probability_max?.[0]
+                    };
+                }
+            }
+
+            function showError(msg){
+                el.desc.textContent = msg || 'Weather unavailable';
+                el.temp.textContent = '--°C';
+                el.range.textContent = 'H:--° L:--°';
+                el.extra.textContent = 'Rain: --% · Wind: -- km/h';
+            }
+
+            async function update(lat, lon, label, accuracy){
+                try {
+                    const data = await fetchWeather(lat, lon);
+                    const desc = setIcon(Number(data.code));
+                    el.temp.textContent = (Math.round(Number(data.temp)) || Math.round(Number(data.temp))) + '°C';
+                    el.desc.textContent = desc;
+                    const tMax = Number(data.tMax);
+                    const tMin = Number(data.tMin);
+                    el.range.textContent = (isFinite(tMax) && isFinite(tMin)) ? `H:${Math.round(tMax)}° L:${Math.round(tMin)}°` : '';
+                    const wind = Number(data.wind);
+                    const rain = Number(data.rain);
+                    const extras = [];
+                    if (isFinite(rain)) extras.push(`Rain: ${Math.round(rain)}%`);
+                    if (isFinite(wind)) extras.push(`Wind: ${Math.round(wind)} km/h`);
+                    el.extra.textContent = extras.join(' · ');
+                    el.loc.textContent = label || 'Your location';
+                    // Put coordinates/accuracy as title for advanced users
+                    el.loc.title = `Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}${accuracy ? ` · ±${Math.round(accuracy)}m` : ''}`;
+
+                    // Cache for 30 minutes
+                    const iconClass = (el.icon.className || '').replace('fa-solid ', '');
+                    localStorage.setItem('weather:last', JSON.stringify({
+                        time: Date.now(),
+                        temp: el.temp.textContent,
+                        desc: el.desc.textContent,
+                        range: el.range.textContent,
+                        extra: el.extra.textContent,
+                        loc: el.loc.textContent,
+                        title: el.loc.title,
+                        icon: iconClass
+                    }));
+                } catch (e){
+                    showError('Unable to load weather');
+                    if (label) el.loc.textContent = label;
+                }
+            }
+
+            function withLocation(pos){
+                const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+                update(lat, lon, undefined, accuracy);
+                // Try to resolve a friendly location name, but don't block UI
+                reverseGeocode(lat, lon).then(name => {
+                    if (name) el.loc.textContent = name;
+                });
+            }
+
+            function useFallback(){
+                el.loc.textContent = fallback.name + ' (default)';
+                update(fallback.lat, fallback.lon, fallback.name);
+            }
+
+            function locate(highAccuracy){
+                if ('geolocation' in navigator){
+                    navigator.geolocation.getCurrentPosition(withLocation, useFallback, {
+                        enableHighAccuracy: !!highAccuracy,
+                        timeout: 8000,
+                        maximumAge: highAccuracy ? 0 : 5 * 60 * 1000
+                    });
+                } else {
+                    useFallback();
+                }
+            }
+
+            // Initial locate (balanced accuracy)
+            locate(true);
+
+            // Relocate on demand with high accuracy
+            if (el.locateBtn){
+                el.locateBtn.addEventListener('click', function(e){
+                    e.preventDefault();
+                    el.loc.textContent = 'Locating…';
+                    locate(true);
+                });
+            }
+
+            // Manual location set/clear
+            const setBtn = document.getElementById('weatherSetLoc');
+            const clearBtn = document.getElementById('weatherClearLoc');
+
+            async function geocodeCity(q){
+                try {
+                    const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=1&language=en&format=json`;
+                    const r = await fetch(url, { cache: 'no-store' });
+                    const j = await r.json();
+                    const res = j && Array.isArray(j.results) && j.results[0];
+                    if (res){
+                        const label = [res.name, res.admin1, res.country_code].filter(Boolean).join(', ');
+                        return { lat: res.latitude, lon: res.longitude, label };
+                    }
+                } catch {}
+                return null;
+            }
+
+            if (setBtn){
+                setBtn.addEventListener('click', async () => {
+                    const value = prompt('Enter city (e.g., Kabacan) or coordinates (lat,lon):');
+                    if (!value) return;
+                    let latLonMatch = value.match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/);
+                    if (latLonMatch){
+                        const lat = parseFloat(latLonMatch[1]);
+                        const lon = parseFloat(latLonMatch[2]);
+                        const label = (await reverseGeocode(lat, lon)) || `${lat.toFixed(3)}, ${lon.toFixed(3)}`;
+                        localStorage.setItem('weather:manual', JSON.stringify({ lat, lon, label }));
+                        update(lat, lon, label);
+                        return;
+                    }
+                    const g = await geocodeCity(value);
+                    if (g){
+                        localStorage.setItem('weather:manual', JSON.stringify(g));
+                        update(g.lat, g.lon, g.label);
+                    } else {
+                        alert('Could not find that location. Try a nearby city or specify coordinates like 7.105,124.828');
+                    }
+                });
+            }
+
+            if (clearBtn){
+                clearBtn.addEventListener('click', () => {
+                    localStorage.removeItem('weather:manual');
+                    alert('Saved location cleared. Using device location.');
+                    locate(true);
+                });
+            }
+        })();
+
         // File upload validation and feedback
         const imageInput = document.getElementById('images');
         if (imageInput) {
@@ -1220,6 +1874,86 @@
                 }
             });
         }
+
+        // Notifications dropdown functionality
+        const notificationsToggle = document.getElementById('notificationsToggle');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+
+        notificationsToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            if (notificationsDropdown.classList.contains('show')) {
+                // Closing
+                notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                notificationsDropdown.style.opacity = '0';
+                setTimeout(() => {
+                    notificationsDropdown.classList.remove('show');
+                }, 200);
+            } else {
+                // Opening
+                notificationsDropdown.classList.add('show');
+                // Trigger reflow
+                notificationsDropdown.offsetHeight;
+                notificationsDropdown.style.transform = 'translateY(0) scale(1)';
+                notificationsDropdown.style.opacity = '1';
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationsToggle.contains(e.target) && !notificationsDropdown.contains(e.target)) {
+                if (notificationsDropdown.classList.contains('show')) {
+                    notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                    notificationsDropdown.style.opacity = '0';
+                    setTimeout(() => {
+                        notificationsDropdown.classList.remove('show');
+                    }, 200);
+                }
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        notificationsDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Global Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchDropdown = document.getElementById('searchDropdown');
+
+        searchInput.addEventListener('focus', function() {
+            searchDropdown.classList.add('show');
+        });
+
+        searchInput.addEventListener('blur', function() {
+            // Delay hiding to allow clicks on dropdown items
+            setTimeout(() => {
+                searchDropdown.classList.remove('show');
+            }, 200);
+        });
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = searchDropdown.querySelectorAll('.search-result-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('.search-result-title').textContent.toLowerCase();
+                const description = item.querySelector('.search-result-description').textContent.toLowerCase();
+
+                if (title.includes(query) || description.includes(query) || query === '') {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Close search dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                searchDropdown.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>

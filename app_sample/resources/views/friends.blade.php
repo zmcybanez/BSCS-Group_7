@@ -51,6 +51,7 @@
             --btn-primary-hover: #3a6319;
             --btn-secondary-bg: #6c757d;
             --btn-secondary-hover: #545b62;
+            --secondary-text: #666;
         }
 
         [data-theme="dark"] {
@@ -95,6 +96,7 @@
             --btn-primary-hover: #7ab087;
             --btn-secondary-bg: #4a5568;
             --btn-secondary-hover: #3a424f;
+            --secondary-text: #a0aec0;
         }
 
         * {
@@ -186,6 +188,209 @@
         .nav-button.logout:hover {
             background: rgba(220,53,69,0.3);
             border-color: rgba(220,53,69,0.5);
+        }
+
+        /* Search Container */
+        .search-container {
+            position: relative;
+            max-width: 400px;
+            margin-right: 1rem;
+            min-width: 200px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 0.7rem 1rem 0.7rem 2.5rem;
+            border: 2px solid var(--search-bg);
+            border-radius: 25px;
+            background: var(--search-bg);
+            color: var(--search-text);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar::placeholder {
+            color: var(--search-placeholder);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            background: var(--search-focus-bg);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--search-icon);
+            font-size: 1rem;
+            z-index: 1;
+        }
+
+        /* Global Search Dropdown */
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            z-index: 999;
+            display: none;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(20px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .search-dropdown.show {
+            display: block;
+        }
+
+        .search-section {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .search-section:last-child {
+            border-bottom: none;
+        }
+
+        .search-section-header {
+            padding: 0.75rem 1rem;
+            background: rgba(74, 124, 35, 0.05);
+            font-weight: 600;
+            color: var(--subheading-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .search-result-item:hover {
+            background: var(--post-hover-bg);
+        }
+
+        .search-result-icon {
+            color: var(--subheading-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .search-result-content {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .search-result-description {
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Notifications Dropdown */
+        .notifications-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notifications-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1);
+            width: 350px;
+            max-height: 450px;
+            overflow: hidden;
+            z-index: 1000;
+            display: none;
+            margin-top: 0.75rem;
+            backdrop-filter: blur(25px);
+            transform: translateY(-10px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notifications-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-bottom: none;
+            border-right: none;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        .notifications-dropdown.show {
+            display: block;
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .notifications-header {
+            padding: 1.25rem 1.75rem;
+            border-bottom: 1px solid var(--card-border);
+            font-weight: 700;
+            color: var(--heading-color);
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--card-bg), rgba(74, 124, 35, 0.02));
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notifications-header i {
+            color: var(--subheading-color);
+            font-size: 1.2rem;
+        }
+
+        .empty-notifications {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--empty-state-text);
+        }
+
+        .empty-notifications i {
+            font-size: 3rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .empty-notifications > div:first-child {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
         }
 
         /* Secondary Navbar */
@@ -497,11 +702,116 @@
         </div>
 
         <div class="nav-right">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchInput" placeholder="Search anything...">
+                <div class="search-dropdown" id="searchDropdown">
+                    <div class="search-section">
+                        <div class="search-section-header">Search Users</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">John Smith</div>
+                                <div class="search-result-description">Organic farming specialist • 500+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Maria Garcia</div>
+                                <div class="search-result-description">Sustainable agriculture expert • 320+ posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">David Chen</div>
+                                <div class="search-result-description">Crop rotation specialist • 250+ posts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Recent Posts</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-leaf search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Best Organic Fertilizers for Tomatoes</div>
+                                <div class="search-result-description">By John Smith • 2 hours ago • 15 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-seedling search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Water Conservation Tips for Dry Seasons</div>
+                                <div class="search-result-description">By Maria Garcia • 5 hours ago • 28 likes</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-tractor search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Equipment Maintenance Guide</div>
+                                <div class="search-result-description">By David Chen • 1 day ago • 42 likes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Navigation</div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('dashboard') }}'">
+                            <i class="fas fa-home search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Dashboard</div>
+                                <div class="search-result-description">View your farming dashboard and posts</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('profile.edit') }}'">
+                            <i class="fas fa-user search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Profile Settings</div>
+                                <div class="search-result-description">Manage your account and preferences</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-section-header">Friends Actions</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user-friends search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Find Friends</div>
+                                <div class="search-result-description">Connect with other farmers</div>
+                            </div>
+                        </div>
+                        <div class="search-result-item">
+                            <i class="fas fa-star search-result-icon"></i>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Expert Farmers</div>
+                                <div class="search-result-description">Learn from experienced professionals</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notifications-container">
+                <button type="button" class="nav-button" id="notificationsToggle">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <div class="notifications-dropdown" id="notificationsDropdown">
+                    <div class="notifications-header">
+                        <i class="fas fa-bell"></i> Notifications
+                    </div>
+                    <div class="empty-notifications">
+                        <div><i class="fas fa-bell-slash"></i></div>
+                        <div>No notifications yet</div>
+                        <div style="font-size: 0.8rem; margin-top: 0.5rem;">You'll see notifications here when you have them</div>
+                    </div>
+                </div>
+            </div>
+
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="nav-button logout">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
                 </button>
             </form>
         </div>
@@ -657,6 +967,86 @@
                 this.innerHTML = '<i class="fas fa-sun"></i> <span>Light Mode</span>';
             } else {
                 this.innerHTML = '<i class="fas fa-moon"></i> <span>Dark Mode</span>';
+            }
+        });
+
+        // Notifications dropdown functionality
+        const notificationsToggle = document.getElementById('notificationsToggle');
+        const notificationsDropdown = document.getElementById('notificationsDropdown');
+
+        notificationsToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            if (notificationsDropdown.classList.contains('show')) {
+                // Closing
+                notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                notificationsDropdown.style.opacity = '0';
+                setTimeout(() => {
+                    notificationsDropdown.classList.remove('show');
+                }, 200);
+            } else {
+                // Opening
+                notificationsDropdown.classList.add('show');
+                // Trigger reflow
+                notificationsDropdown.offsetHeight;
+                notificationsDropdown.style.transform = 'translateY(0) scale(1)';
+                notificationsDropdown.style.opacity = '1';
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!notificationsToggle.contains(e.target) && !notificationsDropdown.contains(e.target)) {
+                if (notificationsDropdown.classList.contains('show')) {
+                    notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                    notificationsDropdown.style.opacity = '0';
+                    setTimeout(() => {
+                        notificationsDropdown.classList.remove('show');
+                    }, 200);
+                }
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        notificationsDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Global Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchDropdown = document.getElementById('searchDropdown');
+
+        searchInput.addEventListener('focus', function() {
+            searchDropdown.classList.add('show');
+        });
+
+        searchInput.addEventListener('blur', function() {
+            // Delay hiding to allow clicks on dropdown items
+            setTimeout(() => {
+                searchDropdown.classList.remove('show');
+            }, 200);
+        });
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const items = searchDropdown.querySelectorAll('.search-result-item');
+
+            items.forEach(item => {
+                const title = item.querySelector('.search-result-title').textContent.toLowerCase();
+                const description = item.querySelector('.search-result-description').textContent.toLowerCase();
+
+                if (title.includes(query) || description.includes(query) || query === '') {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Close search dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                searchDropdown.classList.remove('show');
             }
         });
     </script>
