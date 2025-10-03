@@ -4,11 +4,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Contact form route (public, no auth required)
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 
