@@ -9,6 +9,11 @@ class Friendship extends Model
 {
     use HasFactory;
 
+    protected $table = 'friendships';   // not strictly needed, but explicit is nice
+    protected $primaryKey = 'friend_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'requester_id',
         'addressee_id',

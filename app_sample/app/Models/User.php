@@ -11,31 +11,10 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The primary key for the model.
-     *
-     * @var string
+     * By default, Laravel assumes 'id' as the primary key,
+     * auto-increment, and type int — so we don’t even need to override.
      */
-    protected $primaryKey = 'UserID'; // ✅ match your migration
 
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = true;
-
-    /**
-     * The "type" of the primary key ID.
-     *
-     * @var string
-     */
-    protected $keyType = 'int';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -43,28 +22,18 @@ class User extends Authenticatable
         'google_id',
         'auth_provider',
         'has_password',
-        'role', // ✅ since you added role in migration
+        'role',
         'profile_picture',
         'location',
         'farm_type',
         'bio',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -72,46 +41,55 @@ class User extends Authenticatable
         ];
     }
 
+    // -----------------------------
     // Relationships
+    // -----------------------------
+
+    // Posts authored by this user
     public function posts()
     {
-        return $this->hasMany(Post::class, 'userID', 'UserID');
+        return $this->hasMany(Post::class, 'user_id', 'id');
     }
 
+    // Comments authored by this user
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'userID', 'UserID');
+        return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
-    // Friendship relationships - proper Eloquent approach
+    // Friendships where this user is the requester
     public function friendships()
     {
-        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'user_id', 'id');
     }
 
+    // Friendships where this user is the addressee
     public function friendshipsAsAddressee()
     {
-        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'friend_id', 'id');
     }
 
+    // Alias for sent friend requests
     public function sentFriendRequests()
     {
-        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'user_id', 'id');
     }
 
+    // Alias for received friend requests
     public function receivedFriendRequests()
     {
-        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'friend_id', 'id');
     }
 
-    // Message relationships
+    // Messages sent by this user
     public function sentMessages()
     {
-        return $this->hasMany(Message::class, 'sender_id', 'UserID');
+        return $this->hasMany(Message::class, 'sender_id', 'id');
     }
 
+    // Messages received by this user
     public function receivedMessages()
     {
-        return $this->hasMany(Message::class, 'receiver_id', 'UserID');
+        return $this->hasMany(Message::class, 'receiver_id', 'id');
     }
 }
