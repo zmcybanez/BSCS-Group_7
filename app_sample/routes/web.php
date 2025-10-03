@@ -21,9 +21,6 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-// Include debug routes
-require __DIR__.'/debug.php';
-
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
@@ -41,11 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Friends routes
     Route::get('/friends', [FriendsController::class, 'index'])->name('friends');
-    Route::get('/friends/search', [FriendsController::class, 'search'])->name('friends.search');
-    Route::post('/friends/request', [FriendsController::class, 'sendFriendRequest'])->name('friends.request');
-    Route::post('/friends/accept/{friendship}', [FriendsController::class, 'acceptFriendRequest'])->name('friends.accept');
-    Route::post('/friends/decline/{friendship}', [FriendsController::class, 'declineFriendRequest'])->name('friends.decline');
-    Route::delete('/friends/remove/{friendship}', [FriendsController::class, 'removeFriend'])->name('friends.remove');
+    Route::post('/friends/request', [FriendsController::class, 'sendRequest'])->name('friends.request');
+    Route::post('/friends/accept', [FriendsController::class, 'acceptRequest'])->name('friends.accept');
+    Route::post('/friends/reject', [FriendsController::class, 'rejectRequest'])->name('friends.reject');
 
     // Messages routes
     Route::post('/messages/send', [MessagesController::class, 'sendMessage'])->name('messages.send');

@@ -714,8 +714,7 @@
             </div>
         </div>
     </nav>
-
-    <!-- Hero Section -->
+        <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-logo">
