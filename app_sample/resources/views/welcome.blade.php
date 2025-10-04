@@ -655,6 +655,13 @@
             box-shadow: 0 12px 30px rgba(75, 191, 107, 0.6);
         }
 
+        .contact-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 8px 20px rgba(75, 191, 107, 0.3) !important;
+        }
+
         .contact-btn span {
             position: relative;
             z-index: 1;
@@ -835,14 +842,15 @@
                     </div>
                 </div>
 
-                <form class="contact-form" onsubmit="handleContactForm(event)">
+                <form class="contact-form" id="contactForm">
+                    @csrf
                     <div class="form-row">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
                     </div>
-                    <input type="text" placeholder="Subject" required>
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
-                    <button type="submit" class="contact-btn">
+                    <input type="text" name="subject" placeholder="Subject" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="contact-btn" id="submitBtn">
                         <span>Send Message</span>
                     </button>
                 </form>
@@ -900,36 +908,93 @@
         });
 
         // Contact form handler
-        function handleContactForm(event) {
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.innerHTML = '<span>Sending...</span>';
+            submitBtn.disabled = true;
+
             // Get form data
-            const formData = new FormData(event.target);
-            const name = event.target.querySelector('input[type="text"]').value;
-            const email = event.target.querySelector('input[type="email"]').value;
-            const subject = event.target.querySelectorAll('input[type="text"]')[1].value;
-            const message = event.target.querySelector('textarea').value;
+            const formData = new FormData(this);
 
-            // Simple validation
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields');
-                return;
+            try {
+                const response = await fetch('{{ route("contact.store") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success message
+                    showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
+                    // Reset form
+                    this.reset();
+                } else {
+                    // Show error message
+                    if (data.errors) {
+                        const errorMessages = Object.values(data.errors).flat().join('\n');
+                        showNotification('Please fix the following errors:\n' + errorMessages, 'error');
+                    } else {
+                        showNotification(data.message || 'There was an error sending your message.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('There was an error sending your message. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
+        });
 
-            // Show success message (in a real app, you'd send this to your backend)
-            alert('Thank you for your message! We\'ll get back to you soon.');
+        // Notification system
+        function showNotification(message, type = 'success') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
 
-            // Reset form
-            event.target.reset();
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 10000;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #4CAF50, #45a049);' : 'background: linear-gradient(135deg, #f44336, #da190b);'}
+            `;
+            notification.textContent = message;
 
-            // In a real application, you would send the data to your backend:
-            // fetch('/contact', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({name, email, subject, message})
-            // });
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
         }
     </script>
 </body>
