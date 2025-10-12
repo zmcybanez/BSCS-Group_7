@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - Farm Guide</title>
+    <title>Friends & Network - Farm Guide</title>
     <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -52,7 +52,6 @@
             --btn-secondary-bg: #6c757d;
             --btn-secondary-hover: #545b62;
             --secondary-text: #666;
-            --muted-text: #888;
         }
 
         [data-theme="dark"] {
@@ -98,7 +97,6 @@
             --btn-secondary-bg: #4a5568;
             --btn-secondary-hover: #3a424f;
             --secondary-text: #a0aec0;
-            --muted-text: #718096;
         }
 
         * {
@@ -309,18 +307,6 @@
             margin-top: 0.2rem;
         }
 
-        .search-no-results {
-            padding: 2rem;
-            text-align: center;
-            color: var(--empty-state-text);
-        }
-
-        .search-no-results i {
-            font-size: 2rem;
-            color: var(--empty-state-icon);
-            margin-bottom: 0.5rem;
-        }
-
         /* Notifications Dropdown */
         .notifications-container {
             position: relative;
@@ -333,88 +319,78 @@
             right: 0;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-            width: 320px;
-            max-height: 400px;
-            overflow-y: auto;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.1);
+            width: 350px;
+            max-height: 450px;
+            overflow: hidden;
             z-index: 1000;
             display: none;
-            margin-top: 0.5rem;
-            backdrop-filter: blur(20px);
+            margin-top: 0.75rem;
+            backdrop-filter: blur(25px);
+            transform: translateY(-10px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notifications-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-bottom: none;
+            border-right: none;
+            transform: rotate(45deg);
+            z-index: -1;
         }
 
         .notifications-dropdown.show {
             display: block;
+            transform: translateY(0) scale(1);
+            opacity: 1;
         }
 
         .notifications-header {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.75rem;
             border-bottom: 1px solid var(--card-border);
-            font-weight: 600;
+            font-weight: 700;
             color: var(--heading-color);
             font-size: 1.1rem;
-        }
-
-        .notification-item {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--card-border);
-            transition: background 0.2s ease;
-            cursor: pointer;
-        }
-
-        .notification-item:hover {
-            background: var(--post-hover-bg);
-        }
-
-        .notification-item:last-child {
-            border-bottom: none;
-        }
-
-        .notification-content {
+            background: linear-gradient(135deg, var(--card-bg), rgba(74, 124, 35, 0.02));
             display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .notification-icon {
+        .notifications-header i {
             color: var(--subheading-color);
             font-size: 1.2rem;
-            margin-top: 0.2rem;
-        }
-
-        .notification-text {
-            flex: 1;
-        }
-
-        .notification-title {
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .notification-description {
-            color: var(--secondary-text);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        .notification-time {
-            color: var(--muted-text);
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
         }
 
         .empty-notifications {
             text-align: center;
-            padding: 2rem 1.5rem;
+            padding: 3rem 2rem;
             color: var(--empty-state-text);
         }
 
         .empty-notifications i {
-            font-size: 2rem;
+            font-size: 3rem;
             color: var(--empty-state-icon);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .empty-notifications > div:first-child {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
         }
 
         /* Secondary Navbar */
@@ -472,7 +448,7 @@
         }
 
         /* Cards */
-        .card, .welcome-card {
+        .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
@@ -483,27 +459,9 @@
             transition: all 0.3s ease;
         }
 
-        .card:hover, .welcome-card:hover {
+        .card:hover {
             box-shadow: 0 12px 48px var(--card-hover-shadow);
             transform: translateY(-2px);
-        }
-
-        .welcome-card {
-            background: var(--welcome-bg);
-            text-align: center;
-            padding: 3rem 2rem 2rem;
-        }
-
-        .welcome-card h1 {
-            color: var(--welcome-text);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .welcome-card p {
-            color: var(--welcome-subtext);
-            font-size: 1.2rem;
         }
 
         .card h2 {
@@ -516,62 +474,73 @@
             font-weight: 700;
         }
 
-        /* Forms */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--heading-color);
-            font-weight: 600;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 2px solid var(--input-border);
-            border-radius: 8px;
-            background: var(--input-bg);
-            color: var(--input-text);
-            font-size: 1rem;
+        /* Friends specific styles */
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--post-border);
             transition: all 0.3s ease;
-            font-family: 'Open Sans', sans-serif;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
         }
 
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: var(--subheading-color);
-            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.1);
+        .friend-item:hover {
+            background: var(--post-hover-bg);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--subheading-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .friend-status {
+            font-size: 0.85rem;
+            color: var(--welcome-subtext);
+        }
+
+        .friend-actions {
+            display: flex;
+            gap: 0.5rem;
         }
 
         .btn {
             background: var(--btn-primary-bg);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            justify-content: center;
+            gap: 0.25rem;
         }
 
         .btn:hover {
             background: var(--btn-primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 124, 35, 0.3);
+            transform: translateY(-1px);
         }
 
         .btn.secondary {
@@ -582,96 +551,26 @@
             background: var(--btn-secondary-hover);
         }
 
-        /* Profile Specific */
-        .profile-header {
-            background: var(--welcome-bg);
-            padding: 2rem;
-            border-radius: 16px;
+        /* Empty State */
+        .empty-state {
             text-align: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px var(--card-shadow);
+            padding: 3rem 2rem;
+            color: var(--empty-state-color);
         }
 
-        .profile-pic {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: var(--subheading-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            color: white;
-            font-size: 3rem;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-            border: 4px solid var(--card-border);
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--empty-state-icon);
+            margin-bottom: 1rem;
         }
 
-        .profile-pic:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 24px rgba(74, 124, 35, 0.3);
+        .empty-state h3 {
+            color: var(--empty-state-heading);
+            margin-bottom: 0.5rem;
         }
 
-        .profile-pic img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-pic-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .profile-pic:hover .profile-pic-overlay {
-            opacity: 1;
-        }
-
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .stat-item {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid var(--card-border);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px var(--card-shadow);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--heading-color);
-            display: block;
-        }
-
-        .stat-label {
-            color: var(--welcome-subtext);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
+        .empty-state p {
+            color: var(--empty-state-text);
         }
 
         /* Sidebar */
@@ -726,32 +625,6 @@
             color: var(--subheading-color);
         }
 
-        /* Alerts */
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .alert-success {
-            background: rgba(72, 187, 120, 0.1);
-            border: 1px solid rgba(72, 187, 120, 0.3);
-            color: #2f855a;
-        }
-
-        .alert-error {
-            background: rgba(245, 101, 101, 0.1);
-            border: 1px solid rgba(245, 101, 101, 0.3);
-            color: #c53030;
-        }
-
-        #profile-picture-input {
-            display: none;
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .container {
@@ -779,12 +652,19 @@
                 justify-content: center;
             }
 
-            .profile-stats {
-                grid-template-columns: 1fr;
+            .friend-item {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1rem;
             }
 
-            .welcome-card h1 {
-                font-size: 2rem;
+            .friend-avatar {
+                margin: 0 0 1rem 0;
+            }
+
+            .friend-actions {
+                margin-top: 1rem;
+                justify-content: center;
             }
         }
 
@@ -800,7 +680,7 @@
             }
         }
 
-        .card, .sidebar-card, .welcome-card, .profile-header {
+        .card, .sidebar-card {
             animation: fadeInUp 0.6s ease forwards;
         }
 
@@ -811,6 +691,7 @@
     </style>
 </head>
 <body>
+
     <!-- FIXED NAVBAR -->
     <nav class="navbar">
         <div class="nav-left">
@@ -862,7 +743,7 @@
                         <div class="search-result-item">
                             <i class="fas fa-seedling search-result-icon"></i>
                             <div class="search-result-content">
-                                <div class="search-result-title">Water Conservation Tips</div>
+                                <div class="search-result-title">Water Conservation Tips for Dry Seasons</div>
                                 <div class="search-result-description">By Maria Garcia • 5 hours ago • 28 likes</div>
                             </div>
                         </div>
@@ -875,36 +756,36 @@
                         </div>
                     </div>
                     <div class="search-section">
-                        <div class="search-section-header">Quick Actions</div>
+                        <div class="search-section-header">Navigation</div>
                         <div class="search-result-item" onclick="window.location.href='{{ route('dashboard') }}'">
                             <i class="fas fa-home search-result-icon"></i>
                             <div class="search-result-content">
                                 <div class="search-result-title">Dashboard</div>
-                                <div class="search-result-description">View your farming dashboard</div>
+                                <div class="search-result-description">View your farming dashboard and posts</div>
                             </div>
                         </div>
-                        <div class="search-result-item" onclick="window.location.href='{{ route('friends') }}'">
-                            <i class="fas fa-users search-result-icon"></i>
+                        <div class="search-result-item" onclick="window.location.href='{{ route('profile.edit') }}'">
+                            <i class="fas fa-user search-result-icon"></i>
                             <div class="search-result-content">
-                                <div class="search-result-title">Friends & Network</div>
-                                <div class="search-result-description">Connect with other farmers</div>
+                                <div class="search-result-title">Profile Settings</div>
+                                <div class="search-result-description">Manage your account and preferences</div>
                             </div>
                         </div>
                     </div>
                     <div class="search-section">
-                        <div class="search-section-header">Profile Settings</div>
-                        <div class="search-result-item" onclick="document.getElementById('profileForm').scrollIntoView({behavior: 'smooth'})">
-                            <i class="fas fa-user-edit search-result-icon"></i>
+                        <div class="search-section-header">Friends Actions</div>
+                        <div class="search-result-item">
+                            <i class="fas fa-user-friends search-result-icon"></i>
                             <div class="search-result-content">
-                                <div class="search-result-title">Edit Profile</div>
-                                <div class="search-result-description">Update your personal information</div>
+                                <div class="search-result-title">Find Friends</div>
+                                <div class="search-result-description">Connect with other farmers</div>
                             </div>
                         </div>
-                        <div class="search-result-item" onclick="document.getElementById('passwordForm').scrollIntoView({behavior: 'smooth'})">
-                            <i class="fas fa-key search-result-icon"></i>
+                        <div class="search-result-item">
+                            <i class="fas fa-star search-result-icon"></i>
                             <div class="search-result-content">
-                                <div class="search-result-title">Change Password</div>
-                                <div class="search-result-description">Update your account security</div>
+                                <div class="search-result-title">Expert Farmers</div>
+                                <div class="search-result-description">Learn from experienced professionals</div>
                             </div>
                         </div>
                     </div>
@@ -926,6 +807,7 @@
                     </div>
                 </div>
             </div>
+
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="nav-button logout">
@@ -945,11 +827,11 @@
             <i class="fas fa-moon"></i>
             <span>Dark Mode</span>
         </button>
-        <a href="{{ route('friends') }}" class="nav-button">
+        <a href="{{ route('friends') }}" class="nav-button active">
             <i class="fas fa-users"></i>
             <span>Friends</span>
         </a>
-        <a href="{{ route('profile.edit') }}" class="nav-button active">
+        <a href="{{ route('profile.edit') }}" class="nav-button">
             <i class="fas fa-user"></i>
             <span>Profile</span>
         </a>
@@ -957,177 +839,82 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- Success/Error Messages -->
-            @if(session('success'))
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle"></i>
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error') || $errors->any())
-                <div class="alert alert-error">
-                    <i class="fas fa-exclamation-circle"></i>
-                    @if(session('error'))
-                        {{ session('error') }}
-                    @else
-                        @foreach($errors->all() as $error)
-                            {{ $error }}<br>
-                        @endforeach
-                    @endif
-                </div>
-            @endif
-
-            <!-- Profile Header -->
-            <div class="profile-header">
-                <div class="profile-pic" onclick="document.getElementById('profile-picture-input').click();">
-                    @if(Auth::user()->profile_picture)
-                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Profile Picture">
-                    @else
-                        <i class="fas fa-user"></i>
-                    @endif
-                    <div class="profile-pic-overlay">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                </div>
-                <h2 style="color: var(--welcome-text); margin-bottom: 0.5rem; font-size: 1.8rem;">{{ Auth::user()->name }}</h2>
-                <p style="color: var(--welcome-subtext);">Member since {{ Auth::user()->created_at->format('F Y') }}</p>
-                <p style="color: var(--welcome-subtext); font-size: 0.9rem; margin-top: 0.5rem; cursor: pointer;" onclick="document.getElementById('profile-picture-input').click();">
-                    <i class="fas fa-camera"></i> Click to change profile picture
-                </p>
-            </div>
-
-            <!-- Profile Stats -->
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="stat-number">{{ $questionsAsked ?? 0 }}</span>
-                    <div class="stat-label">Questions Asked</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">{{ $answersGiven ?? 0 }}</span>
-                    <div class="stat-label">Answers Given</div>
-                </div>
-            </div>
-
-            <!-- Profile Information -->
+            <!-- Page Header -->
             <div class="card">
-                <h2><i class="fas fa-user-edit"></i> Profile Information</h2>
-
-                <!-- Hidden file input for profile picture -->
-                <input type="file" id="profile-picture-input" name="profile_picture" accept="image/*" onchange="handleProfilePictureChange(this)">
-
-                <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" id="profile-form">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="form-group">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="name" value="{{ Auth::user()->name }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" name="email" value="{{ Auth::user()->email }}" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Farm Location (Optional)</label>
-                        <input type="text" name="location" value="{{ Auth::user()->location ?? '' }}" placeholder="e.g., Iowa, USA">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Farm Type (Optional)</label>
-                        <select name="farm_type">
-                            <option value="">Select your farm type</option>
-                            <option value="crop" {{ Auth::user()->farm_type == 'crop' ? 'selected' : '' }}>Crop Farming</option>
-                            <option value="livestock" {{ Auth::user()->farm_type == 'livestock' ? 'selected' : '' }}>Livestock</option>
-                            <option value="mixed" {{ Auth::user()->farm_type == 'mixed' ? 'selected' : '' }}>Mixed Farming</option>
-                            <option value="organic" {{ Auth::user()->farm_type == 'organic' ? 'selected' : '' }}>Organic Farming</option>
-                            <option value="hobby" {{ Auth::user()->farm_type == 'hobby' ? 'selected' : '' }}>Hobby Farm</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">About Me (Optional)</label>
-                        <textarea name="bio" rows="4" placeholder="Tell other farmers about yourself and your farming experience...">{{ Auth::user()->bio ?? '' }}</textarea>
-                    </div>
-
-                    <button type="submit" class="btn">
-                        <i class="fas fa-save"></i>
-                        Save Changes
-                    </button>
-                </form>
+                <h2><i class="fas fa-users"></i> Friends & Network</h2>
+                <p style="color: var(--welcome-subtext); margin-bottom: 1rem;">Connect with fellow farmers and agricultural experts in your community.</p>
             </div>
 
-            <!-- Password Management -->
+            <!-- Friend Requests -->
             <div class="card">
-                @if(!Auth::user()->has_password ?? false)
-                    <!-- Set Password for Google Users -->
-                    <h2><i class="fas fa-key"></i> Set Password for Manual Login</h2>
-                    <p style="color: var(--welcome-subtext); margin-bottom: 1rem;">
-                        <i class="fas fa-info-circle"></i> You signed up with Google. Set a password to enable manual login with email and password.
-                    </p>
-                    <form action="{{ route('profile.set-password') }}" method="POST">
-                        @csrf
-
-                        <div class="form-group">
-                            <label class="form-label">New Password</label>
-                            <input type="password" name="password" required>
+                <h2><i class="fas fa-user-plus"></i> Friend Requests</h2>
+                @if(isset($friendRequests) && $friendRequests->count() > 0)
+                    @foreach($friendRequests as $request)
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                {{ substr($request->name ?? 'U', 0, 1) }}
+                            </div>
+                            <div class="friend-info">
+                                <div class="friend-name">{{ $request->name ?? 'Unknown User' }}</div>
+                                <div class="friend-status">Sent you a friend request</div>
+                            </div>
+                            <div class="friend-actions">
+                                <form action="{{ route('friends.accept') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ $request->UserID }}">
+                                    <button type="submit" class="btn">
+                                        <i class="fas fa-check"></i>
+                                        Accept
+                                    </button>
+                                </form>
+                                <form action="{{ route('friends.reject') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ $request->UserID }}">
+                                    <button type="submit" class="btn secondary">
+                                        <i class="fas fa-times"></i>
+                                        Decline
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Confirm Password</label>
-                            <input type="password" name="password_confirmation" required>
-                        </div>
-
-                        <button type="submit" class="btn">
-                            <i class="fas fa-key"></i>
-                            Set Password
-                        </button>
-                    </form>
+                    @endforeach
                 @else
-                    <!-- Change Password for Regular Users -->
-                    <h2><i class="fas fa-lock"></i> Change Password</h2>
-                    <form action="{{ route('password.update') }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <div class="form-group">
-                            <label class="form-label">Current Password</label>
-                            <input type="password" name="current_password" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">New Password</label>
-                            <input type="password" name="password" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Confirm New Password</label>
-                            <input type="password" name="password_confirmation" required>
-                        </div>
-
-                        <button type="submit" class="btn">
-                            <i class="fas fa-key"></i>
-                            Update Password
-                        </button>
-                    </form>
+                    <div class="empty-state">
+                        <i class="fas fa-user-plus"></i>
+                        <h3>No friend requests</h3>
+                        <p>You don't have any pending friend requests at the moment.</p>
+                    </div>
                 @endif
             </div>
 
-            <!-- Account Settings -->
+            <!-- My Friends -->
             <div class="card">
-                <h2><i class="fas fa-cog"></i> Account Settings</h2>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <button class="btn secondary" onclick="alert('Export feature coming soon!')">
-                        <i class="fas fa-download"></i>
-                        Export My Data
-                    </button>
-                    <button class="btn secondary" onclick="if(confirm('Are you sure you want to delete your account? This cannot be undone.')) { alert('Account deletion feature coming soon!'); }">
-                        <i class="fas fa-trash"></i>
-                        Delete Account
-                    </button>
-                </div>
+                <h2><i class="fas fa-user-friends"></i> My Friends</h2>
+                @if(isset($friends) && $friends->count() > 0)
+                    @foreach($friends as $friend)
+                        <div class="friend-item">
+                            <div class="friend-avatar">
+                                {{ substr($friend->name ?? 'U', 0, 1) }}
+                            </div>
+                            <div class="friend-info">
+                                <div class="friend-name">{{ $friend->name ?? 'Unknown User' }}</div>
+                                <div class="friend-status">Connected farmer</div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn" onclick="alert('Messaging feature coming soon!')">
+                                    <i class="fas fa-comment"></i>
+                                    Message
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="empty-state">
+                        <i class="fas fa-user-friends"></i>
+                        <h3>No friends yet</h3>
+                        <p>Start connecting with other farmers in your community!</p>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -1135,20 +922,21 @@
         <div class="sidebar">
             <!-- Quick Actions -->
             <div class="sidebar-card">
-                <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+                <h3><i class="fas fa-plus-circle"></i> Find Friends</h3>
                 <ul class="sidebar-list">
-                    <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="{{ route('friends') }}"><i class="fas fa-users"></i> My Friends</a></li>
+                    <li><a href="#" onclick="alert('Search feature coming soon!')"><i class="fas fa-search"></i> Search Users</a></li>
+                    <li><a href="#" onclick="alert('Suggestions feature coming soon!')"><i class="fas fa-lightbulb"></i> Friend Suggestions</a></li>
+                    <li><a href="#" onclick="alert('Invite feature coming soon!')"><i class="fas fa-envelope"></i> Invite Friends</a></li>
                 </ul>
             </div>
 
-            <!-- Help & Support -->
+            <!-- Quick Actions -->
             <div class="sidebar-card">
-                <h3><i class="fas fa-question-circle"></i> Help & Support</h3>
+                <h3><i class="fas fa-link"></i> Quick Actions</h3>
                 <ul class="sidebar-list">
-                    <li><a href="#" onclick="alert('Help feature coming soon!')"><i class="fas fa-book"></i> User Guide</a></li>
-                    <li><a href="#" onclick="alert('Contact feature coming soon!')"><i class="fas fa-envelope"></i> Contact Support</a></li>
-                    <li><a href="#" onclick="alert('FAQ feature coming soon!')"><i class="fas fa-question"></i> FAQ</a></li>
+                    <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="{{ route('profile.edit') }}"><i class="fas fa-user"></i> My Profile</a></li>
+                    <li><a href="#" onclick="alert('Feature coming soon!')"><i class="fas fa-chart-line"></i> Activity Feed</a></li>
                 </ul>
             </div>
         </div>
@@ -1182,70 +970,40 @@
             }
         });
 
-        // Profile picture change handler
-        function handleProfilePictureChange(input) {
-            if (input.files && input.files[0]) {
-                const formData = new FormData();
-                formData.append('profile_picture', input.files[0]);
-                formData.append('_token', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-                formData.append('_method', 'PUT');
-                formData.append('ajax_upload', '1'); // Indicate this is an AJAX upload
-
-                // Show loading state
-                const profilePic = document.querySelector('.profile-pic');
-                const originalContent = profilePic.innerHTML;
-                profilePic.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 2rem;"></i>';
-
-                fetch('{{ route("profile.update") }}', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw new Error(data.message || `HTTP error! status: ${response.status}`);
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Reload the page to show the new image
-                        location.reload();
-                    } else {
-                        let errorMessage = data.message || 'Unknown error';
-                        if (data.errors) {
-                            errorMessage = Object.values(data.errors).flat().join(', ');
-                        }
-                        alert('Error updating profile picture: ' + errorMessage);
-                        profilePic.innerHTML = originalContent;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error uploading image: ' + error.message);
-                    profilePic.innerHTML = originalContent;
-                });
-            }
-        }
-
         // Notifications dropdown functionality
         const notificationsToggle = document.getElementById('notificationsToggle');
         const notificationsDropdown = document.getElementById('notificationsDropdown');
 
         notificationsToggle.addEventListener('click', function(e) {
             e.stopPropagation();
-            notificationsDropdown.classList.toggle('show');
+
+            if (notificationsDropdown.classList.contains('show')) {
+                // Closing
+                notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                notificationsDropdown.style.opacity = '0';
+                setTimeout(() => {
+                    notificationsDropdown.classList.remove('show');
+                }, 200);
+            } else {
+                // Opening
+                notificationsDropdown.classList.add('show');
+                // Trigger reflow
+                notificationsDropdown.offsetHeight;
+                notificationsDropdown.style.transform = 'translateY(0) scale(1)';
+                notificationsDropdown.style.opacity = '1';
+            }
         });
 
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!notificationsToggle.contains(e.target) && !notificationsDropdown.contains(e.target)) {
-                notificationsDropdown.classList.remove('show');
+                if (notificationsDropdown.classList.contains('show')) {
+                    notificationsDropdown.style.transform = 'translateY(-10px) scale(0.95)';
+                    notificationsDropdown.style.opacity = '0';
+                    setTimeout(() => {
+                        notificationsDropdown.classList.remove('show');
+                    }, 200);
+                }
             }
         });
 

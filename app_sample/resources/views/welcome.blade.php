@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farm Guide - Homepage</title>
+    <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -470,34 +471,42 @@
 
         .stat h3 {
             font-size: 2.5rem;
-            color: #4bbf6b;
+            color: #ffffff;
             margin-bottom: 0.5rem;
             font-weight: 800;
         }
 
         .stat p {
-            color: rgba(255, 255, 255, 0.8);
+            color: #ffffff;
             font-size: 1rem;
             margin: 0;
         }
 
         .mission {
-            background: rgba(75, 191, 107, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(75, 191, 107, 0.2);
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .mission h3 {
-            color: #4bbf6b;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
         }
 
         .mission p {
             margin: 0;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            color: #ffffff;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            font-weight: 500;
         }
 
         /* Contact Section */
@@ -646,6 +655,13 @@
             box-shadow: 0 12px 30px rgba(75, 191, 107, 0.6);
         }
 
+        .contact-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 8px 20px rgba(75, 191, 107, 0.3) !important;
+        }
+
         .contact-btn span {
             position: relative;
             z-index: 1;
@@ -694,7 +710,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo-nav">
-                <img src="logo2.png" alt="Farm Guide">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide">
                 Farm Guide
             </a>
             <div class="nav-links">
@@ -709,7 +725,7 @@
     <section class="hero">
         <div class="hero-content">
             <div class="hero-logo">
-                <img src="logoo.png" alt="Farm Guide Logo">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide Logo">
             </div>
             <h1>Farm Guide</h1>
             <p>A comprehensive learning tool designed for every farmer at every stage of their journey. Cultivate knowledge, grow success.</p>
@@ -807,14 +823,14 @@
                         <div class="contact-icon">📧</div>
                         <div>
                             <h4>Email Us</h4>
-                            <p>support@farmguide.com</p>
+                            <p>glenlaurencelagata@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-icon">📱</div>
                         <div>
                             <h4>Call Us</h4>
-                            <p>+1 (555) 123-4567</p>
+                            <p>+63 951 900 4026</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -826,14 +842,15 @@
                     </div>
                 </div>
 
-                <form class="contact-form" onsubmit="handleContactForm(event)">
+                <form class="contact-form" id="contactForm">
+                    @csrf
                     <div class="form-row">
-                        <input type="text" placeholder="Your Name" required>
-                        <input type="email" placeholder="Your Email" required>
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
                     </div>
-                    <input type="text" placeholder="Subject" required>
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
-                    <button type="submit" class="contact-btn">
+                    <input type="text" name="subject" placeholder="Subject" required>
+                    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit" class="contact-btn" id="submitBtn">
                         <span>Send Message</span>
                     </button>
                 </form>
@@ -843,7 +860,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2024 Farm Guide. Empowering farmers with knowledge and technology.</p>
+        <p>&copy; 2025 Farm Guide. Empowering farmers with knowledge and technology.</p>
     </footer>
 
     <script>
@@ -891,36 +908,93 @@
         });
 
         // Contact form handler
-        function handleContactForm(event) {
+        document.getElementById('contactForm').addEventListener('submit', async function(event) {
             event.preventDefault();
 
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+
+            // Show loading state
+            submitBtn.innerHTML = '<span>Sending...</span>';
+            submitBtn.disabled = true;
+
             // Get form data
-            const formData = new FormData(event.target);
-            const name = event.target.querySelector('input[type="text"]').value;
-            const email = event.target.querySelector('input[type="email"]').value;
-            const subject = event.target.querySelectorAll('input[type="text"]')[1].value;
-            const message = event.target.querySelector('textarea').value;
+            const formData = new FormData(this);
 
-            // Simple validation
-            if (!name || !email || !subject || !message) {
-                alert('Please fill in all fields');
-                return;
+            try {
+                const response = await fetch('{{ route("contact.store") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Show success message
+                    showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
+                    // Reset form
+                    this.reset();
+                } else {
+                    // Show error message
+                    if (data.errors) {
+                        const errorMessages = Object.values(data.errors).flat().join('\n');
+                        showNotification('Please fix the following errors:\n' + errorMessages, 'error');
+                    } else {
+                        showNotification(data.message || 'There was an error sending your message.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('There was an error sending your message. Please try again.', 'error');
+            } finally {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
+        });
 
-            // Show success message (in a real app, you'd send this to your backend)
-            alert('Thank you for your message! We\'ll get back to you soon.');
+        // Notification system
+        function showNotification(message, type = 'success') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(n => n.remove());
 
-            // Reset form
-            event.target.reset();
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 10000;
+                max-width: 400px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                ${type === 'success' ? 'background: linear-gradient(135deg, #4CAF50, #45a049);' : 'background: linear-gradient(135deg, #f44336, #da190b);'}
+            `;
+            notification.textContent = message;
 
-            // In a real application, you would send the data to your backend:
-            // fetch('/contact', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({name, email, subject, message})
-            // });
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 5000);
         }
     </script>
 </body>
