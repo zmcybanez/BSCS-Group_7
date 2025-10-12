@@ -3,38 +3,43 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsersTableSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('users')->insert([
+        $users = [
             [
                 'name' => 'Admin User',
                 'email' => 'admin@example.com',
-                'password' => Hash::make('password'),
                 'role' => 'admin',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Test User',
                 'email' => 'user@example.com',
-                'password' => Hash::make('password'),
                 'role' => 'user',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Glen Laurence Lagata',
                 'email' => 'glenlaurencelagata@gmail.com',
-                'password' => Hash::make('laurencancer11'),
                 'role' => 'user',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password' => Hash::make('laurencancer11'),
             ],
-        ]);
+        ];
+
+        foreach ($users as $user) {
+            User::firstOrCreate(
+                ['email' => $user['email']], // unique check by email
+                array_merge($user, [
+                    'email_verified_at' => now(),
+                    'remember_token' => Str::random(10),
+                ])
+            );
+        }
     }
 }
