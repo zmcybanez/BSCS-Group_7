@@ -65,12 +65,10 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'password' => 'hashed',
+        'email_verified_at' => 'datetime',
+    ];
 
     // Relationships
     public function posts()
@@ -86,22 +84,24 @@ class User extends Authenticatable
     // Friendship relationships - proper Eloquent approach
     public function friendships()
     {
-        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+        // friendships where this user initiated the request
+        return $this->hasMany(Friendship::class, 'user_id', 'UserID');
     }
 
     public function friendshipsAsAddressee()
     {
-        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+        // friendships where this user was added/received the request
+        return $this->hasMany(Friendship::class, 'friend_id', 'UserID');
     }
 
     public function sentFriendRequests()
     {
-        return $this->hasMany(Friendship::class, 'requester_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'user_id', 'UserID');
     }
 
     public function receivedFriendRequests()
     {
-        return $this->hasMany(Friendship::class, 'addressee_id', 'UserID');
+        return $this->hasMany(Friendship::class, 'friend_id', 'UserID');
     }
 
     // Message relationships

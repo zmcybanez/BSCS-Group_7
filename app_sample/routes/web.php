@@ -11,10 +11,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/welcome', function () {
+    \Log::info("Request received: " . request()->method() . " " . request()->path());
+    return response()->json(['message' => 'Welcome to the Laravel API Service!']);
+});
+
 // Contact form route (public, no auth required)
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+// Use auth routes in routes/auth.php (Breeze Auth controllers)
+// The POST /login route is registered in routes/auth.php and handled by
+// App\Http\Controllers\Auth\AuthenticatedSessionController@store
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -60,3 +67,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     });
 });
+
+// Local-only debug route to test authentication and inspect password hashes.
+// Only enabled when APP_ENV=local to avoid exposing sensitive info.
+if (app()->environment('local')) {
+    Route::get('/debug-login', function () {
+        $email = 'bypass@example.com';
+        $password = 'BypassPass123!';
+
+        $hash = \Illuminate\Support\Facades\DB::table('users')->where('email', $email)->value('password');
+        $attempt = \Illuminate\Support\Facades\Auth::attempt(['email' => $email, 'password' => $password]);
+
+        return response()->json([
+            'email' => $email,
+            'attempt' => $attempt,
+            'hash_prefix' => $hash ? substr($hash, 0, 6) : null,
+            'hash_length' => $hash ? strlen($hash) : 0,
+            'hash_info' => $hash ? \Illuminate\Support\Facades\Hash::driver()->info($hash) : null,
+        ]);
+    });
+}
