@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< Updated upstream
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -117,6 +118,128 @@
                             </a>
                         </li>
                     </ul>
+=======
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Guide - Homepage</title>
+    <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="forest-bg"></div>
+
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-nav">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide">
+                Farm Guide
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+                <button class="login-btn" onclick="window.location.href='{{ route('login') }}'">Login</button>
+            </div>
+        </div>
+    </nav>
+        <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">
+                <img src="{{ asset('logoo.png') }}" alt="Farm Guide Logo">
+            </div>
+            <h1>Farm Guide</h1>
+            <p>A comprehensive learning tool designed for every farmer at every stage of their journey. Cultivate knowledge, grow success.</p>
+            <div class="cta-buttons">
+                <a href="{{ route('register') }}" class="cta-btn primary">
+                    <span>Get Started</span>
+                </a>
+                <a href="#features" class="cta-btn secondary">
+                    <span>Learn More</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2>Why Choose Farm Guide?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Expert Knowledge</h3>
+                <p>Access comprehensive farming guides, tips, and best practices from agricultural experts and experienced farmers worldwide.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <h3>Crop Management</h3>
+                <p>Learn effective crop rotation, soil management, and sustainable farming techniques to maximize your harvest yield.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Farm Analytics</h3>
+                <p>Track your farm's performance with detailed analytics, weather forecasts, and market price predictions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Community Support</h3>
+                <p>Connect with fellow farmers, share experiences, and get advice from a supportive agricultural community.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Access Farm Guide anywhere, anytime with our responsive design that works perfectly on all devices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3>Smart Solutions</h3>
+                <p>Get personalized recommendations and smart farming solutions tailored to your specific crops and location.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>About Farm Guide</h2>
+                <p>Farm Guide was born from a simple belief: every farmer deserves access to the knowledge and tools needed to succeed in modern agriculture. Founded by a team of agricultural experts, tech innovators, and passionate farmers, we've created a comprehensive platform that bridges traditional farming wisdom with cutting-edge technology.</p>
+
+                <div class="about-stats">
+                    <div class="stat">
+                        <h3>10,000+</h3>
+                        <p>Active Farmers</p>
+                    </div>
+                    <div class="stat">
+                        <h3>500+</h3>
+                        <p>Expert Guides</p>
+                    </div>
+                    <div class="stat">
+                        <h3>50+</h3>
+                        <p>Countries</p>
+                    </div>
+                    <div class="stat">
+                        <h3>24/7</h3>
+                        <p>Support</p>
+                    </div>
+>>>>>>> Stashed changes
                 </div>
                 <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
                     {{-- Laravel Logo --}}
