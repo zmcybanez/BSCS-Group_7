@@ -701,13 +701,10 @@
             </div>
 
             @auth
-                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                    @csrf
-                    <button type="submit" class="nav-button logout">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </button>
-                </form>
+                <a href="{{ route('logout.get') }}" class="nav-button logout" title="Sign out">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
             @endauth
         </div>
     </nav>

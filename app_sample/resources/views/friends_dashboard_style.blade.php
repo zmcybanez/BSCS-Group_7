@@ -380,12 +380,9 @@
             <a href="{{ route('profile.edit') }}" class="nav-button">
                 <i class="fas fa-user"></i> Profile
             </a>
-            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                @csrf
-                <button type="submit" class="nav-button logout">
+                <a href="{{ route('logout.get') }}" class="nav-button logout" title="Sign out">
                     <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
+                </a>
         </div>
     </nav>
 

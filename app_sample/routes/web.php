@@ -1,10 +1,16 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\TopicController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TopicController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,16 +27,25 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/set-password', [ProfileController::class, 'setPassword'])->name('profile.set-password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/logout', function (Request $request) {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    })->name('logout.get');
 });
 
 require __DIR__.'/auth.php';
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
-
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\FriendsController;
-use App\Http\Controllers\MessagesController;
+Route::get('/forgot-password', [PasswordResetController::class, 'request'])->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'email'])->middleware('guest')->name('password.email');
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [PasswordResetController::class, 'update'])->middleware('guest')->name('password.update');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -52,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/messages/unread-count', [MessagesController::class, 'getUnreadCount'])->name('messages.unread-count');
 
     // Debug route for logout
-    Route::get('/debug-logout', function() {
+    Route::get('/debug-logout', function () {
         return response()->json([
             'user' => auth()->user() ? auth()->user()->name : 'Not logged in',
             'csrf_token' => csrf_token(),

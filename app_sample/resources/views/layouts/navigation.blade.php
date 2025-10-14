@@ -42,15 +42,10 @@
                 </x-dropdown-link>
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-dropdown-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();" class="text-white dark:text-green-200 hover:bg-green-700 dark:hover:bg-green-800">
-                        Log Out
-                    </x-dropdown-link>
-                </form>
+                <x-dropdown-link :href="route('logout.get')"
+                        class="text-white dark:text-green-200 hover:bg-green-700 dark:hover:bg-green-800">
+                    Log Out
+                </x-dropdown-link>
             </x-slot>
         </x-dropdown>
     </div>

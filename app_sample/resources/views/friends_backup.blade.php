@@ -529,12 +529,9 @@
             <input type="text" class="nav-search" placeholder="Search farmers, topics, or locations...">
         </div>
         <div class="nav-right">
-            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                @csrf
-                <button type="submit" class="nav-button">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
+            <a href="{{ route('logout.get') }}" class="nav-button" title="Sign out">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
         </div>
     </nav>
 
