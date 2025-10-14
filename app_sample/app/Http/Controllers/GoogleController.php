@@ -2,45 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
+use Throwable;
 
 class GoogleController extends Controller
 {
     // Redirect user to Google login
     public function redirect()
     {
-        // Debug: Check if env() function is working
-        $env_test = env('APP_NAME');
-        if ($env_test === null) {
-            dd('Environment variables are not loading. Check .env file location and syntax.');
-        }
+        $config = config('services.google');
 
-        // Debug: Check specific Google env vars
-        $client_id = env('GOOGLE_CLIENT_ID');
-        $client_secret = env('GOOGLE_CLIENT_SECRET');
-        $redirect_uri = env('GOOGLE_REDIRECT_URI');
+        if (empty($config['client_id']) || empty($config['client_secret']) || empty($config['redirect'])) {
+            Log::error('Google OAuth configuration is incomplete', [
+                'config' => $config,
+            ]);
 
-        if (empty($client_id) || empty($client_secret) || empty($redirect_uri)) {
-            dd('Google env vars are null:', [
-                'GOOGLE_CLIENT_ID' => $client_id,
-                'GOOGLE_CLIENT_SECRET' => $client_secret,
-                'GOOGLE_REDIRECT_URI' => $redirect_uri,
+            return redirect()->route('login')->withErrors([
+                'google' => 'Google sign-in is currently unavailable. Please try again later.',
             ]);
         }
 
-        // Debug: Check if config is loaded
-        $config = config('services.google');
-        if (empty($config['client_id'])) {
-            dd('Google client_id is missing from config', $config);
-        }
-        if (empty($config['redirect'])) {
-            dd('Google redirect URI is missing from config', $config);
-        }
-
-        // Debug: Log the config for troubleshooting
-        \Log::info('Google OAuth Config:', $config);
+        Log::info('Google OAuth redirect initiated');
 
         return Socialite::driver('google')->redirect();
     }
@@ -48,7 +36,55 @@ class GoogleController extends Controller
     // Handle callback from Google
     public function callback()
     {
-        $googleUser = Socialite::driver('google')->user();
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (InvalidStateException $exception) {
+            Log::warning('Google OAuth invalid state detected, retrying stateless flow', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            try {
+                $googleUser = Socialite::driver('google')->stateless()->user();
+            } catch (GuzzleException $guzzleException) {
+                Log::error('Google OAuth stateless flow failed due to network error', [
+                    'message' => $guzzleException->getMessage(),
+                ]);
+
+                return redirect()->route('login')->withErrors([
+                    'google' => 'We could not reach Google to complete the sign-in. Please check your internet connection and try again.',
+                ]);
+            } catch (Throwable $throwable) {
+                Log::error('Google OAuth stateless flow failed', [
+                    'message' => $throwable->getMessage(),
+                ]);
+
+                return redirect()->route('login')->withErrors([
+                    'google' => 'Unable to authenticate with Google at this time. Please try again.',
+                ]);
+            }
+        } catch (GuzzleException $exception) {
+            Log::error('Google OAuth network error', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()->route('login')->withErrors([
+                'google' => 'We could not reach Google to complete the sign-in. Please check your internet connection and try again.',
+            ]);
+        } catch (Throwable $exception) {
+            Log::error('Google OAuth callback failed', [
+                'message' => $exception->getMessage(),
+            ]);
+
+            return redirect()->route('login')->withErrors([
+                'google' => 'Unable to authenticate with Google at this time. Please try again.',
+            ]);
+        }
+
+        if (! isset($googleUser)) {
+            return redirect()->route('login')->withErrors([
+                'google' => 'Unable to authenticate with Google at this time. Please try again.',
+            ]);
+        }
 
         // Find existing user or create new one
         $user = User::where('email', $googleUser->getEmail())->first();
@@ -60,6 +96,8 @@ class GoogleController extends Controller
                     'google_id' => $googleUser->getId(),
                     'auth_provider' => 'google', // Switch to Google auth
                     'has_password' => false, // They'll need to set a password for manual login
+                    'password' => Str::random(40), // Invalidate previous password while satisfying DB constraint
+                    'email_verified_at' => $user->email_verified_at ?? now(),
                 ]);
             }
         } else {
@@ -70,7 +108,8 @@ class GoogleController extends Controller
                 'google_id' => $googleUser->getId(),
                 'auth_provider' => 'google',
                 'has_password' => false,
-                'password' => null, // No password for Google users initially
+                'password' => Str::random(40), // Store random hashed password to satisfy database constraint
+                'email_verified_at' => now(),
             ]);
         }
 
