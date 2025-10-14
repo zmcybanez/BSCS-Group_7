@@ -22,9 +22,28 @@ class PasswordResetController extends Controller
 
         $status = Password::sendResetLink($request->only('email'));
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
+        $seconds = (int) config(
+            'auth.passwords.'.config('auth.defaults.passwords').'.throttle',
+            60
+        );
+
+        if ($status === Password::RESET_LINK_SENT) {
+            $message = __('passwords.sent_with_countdown', [
+                'seconds' => '<span class="reset-countdown" data-seconds="' . $seconds . '">' . $seconds . '</span>',
+            ]);
+
+            return back()->with('status_html', $message);
+        }
+
+        if ($status === Password::RESET_THROTTLED) {
+            $message = __('passwords.throttled', [
+                'seconds' => '<span class="reset-countdown" data-seconds="' . $seconds . '">' . $seconds . '</span>',
+            ]);
+
+            return back()->withErrors(['email' => $message]);
+        }
+
+        return back()->withErrors(['email' => __($status)]);
     }
 
     public function showResetForm(string $token, Request $request)

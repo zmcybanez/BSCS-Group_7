@@ -98,6 +98,13 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(45, 164, 78, 0.2);
         }
+        button[type="submit"].is-disabled,
+        button[type="submit"].is-disabled:hover {
+            background: #9dbfa7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
         .alert {
             padding: 1rem;
             border-radius: 8px;
@@ -136,7 +143,11 @@
         <h2>Forgot Your Password?</h2>
         <p class="info-text">No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.</p>
 
-        @if (session('status'))
+        @if (session('status_html'))
+            <div class="alert alert-status">
+                {!! session('status_html') !!}
+            </div>
+        @elseif (session('status'))
             <div class="alert alert-status">
                 {{ session('status') }}
             </div>
@@ -148,7 +159,7 @@
                 <label for="email">Email</label>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
                 @error('email')
-                    <div class="error-text">{{ $message }}</div>
+                    <div class="error-text">{!! $message !!}</div>
                 @enderror
             </div>
 
@@ -161,5 +172,43 @@
             <a href="{{ route('login') }}">← Back to login</a>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const countdownEl = document.querySelector('.reset-countdown');
+            if (!countdownEl) {
+                return;
+            }
+
+            let remaining = parseInt(countdownEl.dataset.seconds, 10);
+            if (Number.isNaN(remaining) || remaining <= 0) {
+                countdownEl.textContent = '0';
+                return;
+            }
+
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.classList.add('is-disabled');
+            }
+
+            const tick = () => {
+                if (remaining <= 0) {
+                    countdownEl.textContent = '0';
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.classList.remove('is-disabled');
+                    }
+                    clearInterval(timer);
+                    return;
+                }
+
+                countdownEl.textContent = remaining;
+                remaining -= 1;
+            };
+
+            tick();
+            const timer = setInterval(tick, 1000);
+        });
+    </script>
 </body>
 </html>

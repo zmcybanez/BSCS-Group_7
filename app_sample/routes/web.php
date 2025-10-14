@@ -45,7 +45,7 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name
 Route::get('/forgot-password', [PasswordResetController::class, 'request'])->middleware('guest')->name('password.request');
 Route::post('/forgot-password', [PasswordResetController::class, 'email'])->middleware('guest')->name('password.email');
 Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])->middleware('guest')->name('password.reset');
-Route::post('/reset-password', [PasswordResetController::class, 'update'])->middleware('guest')->name('password.update');
+Route::post('/reset-password', [PasswordResetController::class, 'update'])->middleware('guest')->name('password.reset.submit');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

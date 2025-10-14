@@ -403,25 +403,10 @@
             margin-top: 0.2rem;
         }
 
-        .search-no-results {
-            padding: 2rem;
-            text-align: center;
+        .search-empty {
+            padding: 1.25rem 1rem;
+            font-size: 0.9rem;
             color: var(--empty-state-text);
-        }
-
-        .search-no-results i {
-            font-size: 2rem;
-            color: var(--empty-state-icon);
-            margin-bottom: 0.5rem;
-        }
-
-        .search-dropdown-header {
-            padding: 1rem;
-            border-bottom: 1px solid var(--search-dropdown-border);
-            font-weight: 600;
-            color: var(--search-dropdown-header-color);
-            background: var(--search-dropdown-header-bg);
-            border-radius: 10px 10px 0 0;
         }
 
         /* Secondary Navbar */
@@ -1218,58 +1203,11 @@
                 <div class="search-dropdown" id="searchDropdown">
                     <div class="search-section">
                         <div class="search-section-header">Search Users</div>
-                        <div class="search-result-item">
-                            <i class="fas fa-user search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">John Smith</div>
-                                <div class="search-result-description">Organic farming specialist • 500+ posts</div>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <i class="fas fa-user search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">Maria Garcia</div>
-                                <div class="search-result-description">Sustainable agriculture expert • 320+ posts</div>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <i class="fas fa-user search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">David Chen</div>
-                                <div class="search-result-description">Crop rotation specialist • 250+ posts</div>
-                            </div>
-                        </div>
+                        <div class="search-empty">No recent searches</div>
                     </div>
                     <div class="search-section">
                         <div class="search-section-header">Recent Posts</div>
-                        <div class="search-result-item">
-                            <i class="fas fa-leaf search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">Best Organic Fertilizers for Tomatoes</div>
-                                <div class="search-result-description">By John Smith • 2 hours ago • 15 likes</div>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <i class="fas fa-seedling search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">Water Conservation Tips for Dry Seasons</div>
-                                <div class="search-result-description">By Maria Garcia • 5 hours ago • 28 likes</div>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <i class="fas fa-tractor search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">Equipment Maintenance Guide</div>
-                                <div class="search-result-description">By David Chen • 1 day ago • 42 likes</div>
-                            </div>
-                        </div>
-                        <div class="search-result-item">
-                            <i class="fas fa-bug search-result-icon"></i>
-                            <div class="search-result-content">
-                                <div class="search-result-title">Natural Pest Control Methods</div>
-                                <div class="search-result-description">By Sarah Johnson • 2 days ago • 67 likes</div>
-                            </div>
-                        </div>
+                        <div class="search-empty">No recent searches</div>
                     </div>
                     <div class="search-section">
                         <div class="search-section-header">Navigation</div>

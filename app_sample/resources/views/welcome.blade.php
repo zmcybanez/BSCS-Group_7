@@ -823,7 +823,7 @@
                         <div class="contact-icon">📧</div>
                         <div>
                             <h4>Email Us</h4>
-                            <p>glenlaurencelagata@gmail.com</p>
+                            <p>farmguidead1@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -837,7 +837,7 @@
                         <div class="contact-icon">🌐</div>
                         <div>
                             <h4>Visit Us</h4>
-                            <p>123 Agricultural Way<br>Farm City, FC 12345</p>
+                            <p>Plang Avenue<br>Kabacan, North Cotabato</p>
                         </div>
                     </div>
                 </div>
