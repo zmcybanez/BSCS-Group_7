@@ -32,8 +32,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+// Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
 Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FriendsController;
