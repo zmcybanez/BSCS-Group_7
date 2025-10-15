@@ -837,7 +837,7 @@
                         <div class="contact-icon">🌐</div>
                         <div>
                             <h4>Visit Us</h4>
-                            <p>123 Agricultural Way<br>Farm City, FC 12345</p>
+                            <p>Plang avenue, Poblacion, Kabacan, Cotabato, Philippines</p>
                         </div>
                     </div>
                 </div>
