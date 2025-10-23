@@ -1450,19 +1450,48 @@
                             <span><i class="fas fa-clock"></i> {{ $post->created_at->diffForHumans() }}</span>
                         </div>
                     </div>
-                @empty
-                    <div class="empty-state">
-                        <i class="fas fa-comments"></i>
-                        <h3>No questions yet</h3>
-                        <p>Be the first to ask a question and get expert advice!</p>
-                    </div>
-                @endforelse
+                    
+                    <div class="mt-4 border-t pt-3">
+                    <h4 class="font-semibold mb-2">Comments</h4>
 
-                @if($posts->hasPages())
-                    <div class="pagination-wrapper">
-                        {{ $posts->links() }}
-                    </div>
-                @endif
+                    @forelse ($post->comments->where('parent_id', null) as $comment)
+                        <div class="border rounded p-2 my-2 bg-gray-50">
+                            <strong>{{ $comment->user->name ?? 'Anonymous' }}</strong>
+                            <p>{{ $comment->text }}</p>
+                            <small class="text-gray-500">{{ $comment->created_at->diffForHumans() }}</small>
+
+                            {{-- Replies --}}
+                            @foreach ($comment->replies as $reply)
+                                <div class="ml-6 border-l pl-3 mt-2">
+                                    <strong>{{ $reply->user->name ?? 'Anonymous' }}</strong>
+                                    <p>{{ $reply->text }}</p>
+                                </div>
+                            @endforeach
+
+                            {{-- Reply Form --}}
+                            <form action="{{ route('comments.store', $post->PostID) }}" method="POST" class="mt-2">
+                                @csrf
+                                <input type="hidden" name="parent_id" value="{{ $comment->CommentID }}">
+                                <textarea name="text" rows="2" placeholder="Write a reply..." class="w-full border rounded p-1"></textarea>
+                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">Reply</button>
+                            </form>
+                        </div>
+                    @empty
+                        <p class="text-gray-500 italic">No comments yet. Be the first to comment!</p>``
+                    @endforelse
+
+                    {{-- Add new comment --}}
+                    <form action="{{ route('comments.store', $post->PostID) }}" method="POST" class="mt-4">
+                        @csrf
+                        <textarea name="text" rows="3" placeholder="Write a comment..." class="w-full border rounded p-2"></textarea>
+                        <button type="submit" class="bg-green-500 text-white px-3 py-1 rounded mt-2">Comment</button>
+                    </form>
+                </div>
+                    @endforelse
+
+                <div class="pagination-wrapper">
+                    {{ $posts->links() }}
+                </div>
             </div>
         </div>
 
