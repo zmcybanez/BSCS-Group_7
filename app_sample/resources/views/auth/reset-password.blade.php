@@ -1,9 +1,8 @@
-<x-guest-layout>
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Password - Farm Guide</title>
+    <title>Reset Password - FarmGuide</title>
     <link rel="icon" type="image/png" href="{{ asset('logo2.png') }}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;600;500;400&display=swap" rel="stylesheet">
     <style>
@@ -33,6 +32,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: stretch;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 2rem auto;
+            width: 80px;
+            height: auto;
         }
         h2 {
             font-size: 2.2rem;
@@ -96,13 +101,29 @@
             font-size: 0.85rem;
             margin-top: 5px;
         }
+        .show-password {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #4a5568;
+            cursor: pointer;
+            user-select: none;
+        }
+        .show-password input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <img src="{{ asset('logoo.png') }}" alt="FarmGuide Logo" class="logo">
         <h2>Set a New Password</h2>
 
-        <form method="POST" action="{{ route('password.update') }}">
+        <form method="POST" action="{{ route('password.reset.update') }}">
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
 
@@ -127,12 +148,30 @@
                 <input id="password_confirmation" type="password" name="password_confirmation" required>
             </div>
 
+            <label class="show-password">
+                <input type="checkbox" id="show-password-toggle">
+                <span>Show Password</span>
+            </label>
+
             <button type="submit">
                 Reset Password
             </button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('show-password-toggle').addEventListener('change', function() {
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('password_confirmation');
+
+            if (this.checked) {
+                passwordField.type = 'text';
+                confirmPasswordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+                confirmPasswordField.type = 'password';
+            }
+        });
+    </script>
 </body>
 </html>
-
-</x-guest-layout>
