@@ -15,24 +15,24 @@ class FriendsController extends Controller
 
         // Get friends (accepted friendships)
         $friends = User::whereIn('UserID', function($query) use ($user) {
-            $query->select('addressee_id')
+            $query->select('friend_id')
                   ->from('friendships')
-                  ->where('requester_id', $user->UserID)
+                  ->where('user_id', $user->UserID)
                   ->where('status', 'accepted')
                   ->union(
                       $query->newQuery()
-                            ->select('requester_id')
+                            ->select('user_id')
                             ->from('friendships')
-                            ->where('addressee_id', $user->UserID)
+                            ->where('friend_id', $user->UserID)
                             ->where('status', 'accepted')
                   );
         })->get();
 
         // Get friend requests (pending)
         $friendRequests = User::whereIn('UserID', function($query) use ($user) {
-            $query->select('requester_id')
+            $query->select('user_id')
                   ->from('friendships')
-                  ->where('addressee_id', $user->UserID)
+                  ->where('friend_id', $user->UserID)
                   ->where('status', 'pending');
         })->get();
 
@@ -46,15 +46,15 @@ class FriendsController extends Controller
 
         // Check if friendship already exists
         $existingFriendship = Friendship::where(function($query) use ($user, $friendId) {
-            $query->where('requester_id', $user->UserID)->where('addressee_id', $friendId);
+            $query->where('user_id', $user->UserID)->where('friend_id', $friendId);
         })->orWhere(function($query) use ($user, $friendId) {
-            $query->where('requester_id', $friendId)->where('addressee_id', $user->UserID);
+            $query->where('user_id', $friendId)->where('friend_id', $user->UserID);
         })->first();
 
         if (!$existingFriendship) {
             Friendship::create([
-                'requester_id' => $user->UserID,
-                'addressee_id' => $friendId,
+                'user_id' => $user->UserID,
+                'friend_id' => $friendId,
                 'status' => 'pending'
             ]);
         }
@@ -65,10 +65,10 @@ class FriendsController extends Controller
     public function acceptRequest(Request $request)
     {
         $user = Auth::user();
-        $friendship = Friendship::where('requester_id', $request->user_id)
-                                ->where('addressee_id', $user->UserID)
-                                ->where('status', 'pending')
-                                ->first();
+    $friendship = Friendship::where('user_id', $request->user_id)
+                ->where('friend_id', $user->UserID)
+                ->where('status', 'pending')
+                ->first();
 
         if ($friendship) {
             $friendship->update(['status' => 'accepted']);
@@ -80,10 +80,10 @@ class FriendsController extends Controller
     public function rejectRequest(Request $request)
     {
         $user = Auth::user();
-        $friendship = Friendship::where('requester_id', $request->user_id)
-                                ->where('addressee_id', $user->UserID)
-                                ->where('status', 'pending')
-                                ->first();
+    $friendship = Friendship::where('user_id', $request->user_id)
+                ->where('friend_id', $user->UserID)
+                ->where('status', 'pending')
+                ->first();
 
         if ($friendship) {
             $friendship->delete();

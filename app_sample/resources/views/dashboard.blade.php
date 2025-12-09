@@ -1403,7 +1403,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">Details</label>
-                        <textarea name="content" rows="4" placeholder="Provide specific details about your farming situation, location, current methods, or any other relevant information..." required>asdasd</textarea>
+                        <textarea name="content" rows="4" placeholder="Provide specific details about your farming situation, location, current methods, or any other relevant information..." required></textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Add Photos (Optional - Max 5 photos, 5MB each)</label>

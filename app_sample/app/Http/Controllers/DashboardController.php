@@ -27,14 +27,14 @@ class DashboardController extends Controller
 
         // Get recent friends using direct approach
         $friendshipIds = Friendship::where(function($query) use ($user) {
-            $query->where('requester_id', $user->UserID)
-                  ->orWhere('addressee_id', $user->UserID);
-        })->where('status', 'accepted')->limit(5)->pluck('FriendshipID');
+            $query->where('user_id', $user->UserID)
+                  ->orWhere('friend_id', $user->UserID);
+        })->where('status', 'accepted')->limit(5)->pluck('id');
 
         $recentFriends = collect();
         foreach ($friendshipIds as $friendshipId) {
             $friendship = Friendship::find($friendshipId);
-            if ($friendship && $friendship->requester_id == $user->UserID) {
+            if ($friendship && $friendship->user_id == $user->UserID) {
                 $recentFriends->push($friendship->addressee);
             } elseif ($friendship) {
                 $recentFriends->push($friendship->requester);
@@ -86,14 +86,14 @@ class DashboardController extends Controller
 
         // Get recent friends using direct approach
         $friendshipIds = Friendship::where(function($query) use ($user) {
-            $query->where('requester_id', $user->UserID)
-                  ->orWhere('addressee_id', $user->UserID);
-        })->where('status', 'accepted')->limit(5)->pluck('FriendshipID');
+            $query->where('user_id', $user->UserID)
+                  ->orWhere('friend_id', $user->UserID);
+        })->where('status', 'accepted')->limit(5)->pluck('id');
 
         $recentFriends = collect();
         foreach ($friendshipIds as $friendshipId) {
             $friendship = Friendship::find($friendshipId);
-            if ($friendship && $friendship->requester_id == $user->UserID) {
+            if ($friendship && $friendship->user_id == $user->UserID) {
                 $recentFriends->push($friendship->addressee);
             } elseif ($friendship) {
                 $recentFriends->push($friendship->requester);

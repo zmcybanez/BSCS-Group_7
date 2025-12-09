@@ -31,6 +31,7 @@ class Post extends Model
         'is_solved' => 'boolean',
     ];
 
+
     public function user()
     {
         return $this->belongsTo(User::class, 'userID', 'UserID');

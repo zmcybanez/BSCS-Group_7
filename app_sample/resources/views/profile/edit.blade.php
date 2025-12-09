@@ -1131,29 +1131,166 @@
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <!-- Quick Actions -->
-            <div class="sidebar-card">
-                <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
-                <ul class="sidebar-list">
-                    <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
-                    <li><a href="{{ route('friends') }}"><i class="fas fa-users"></i> My Friends</a></li>
-                </ul>
-            </div>
-
-            <!-- Help & Support -->
-            <div class="sidebar-card">
-                <h3><i class="fas fa-question-circle"></i> Help & Support</h3>
-                <ul class="sidebar-list">
-                    <li><a href="#" onclick="alert('Help feature coming soon!')"><i class="fas fa-book"></i> User Guide</a></li>
-                    <li><a href="#" onclick="alert('Contact feature coming soon!')"><i class="fas fa-envelope"></i> Contact Support</a></li>
-                    <li><a href="#" onclick="alert('FAQ feature coming soon!')"><i class="fas fa-question"></i> FAQ</a></li>
-                </ul>
-            </div>
-        </div>
+  <!-- Sidebar -->
+<div class="sidebar">
+    <!-- Quick Actions -->
+    <div class="sidebar-card">
+        <h3><i class="fas fa-rocket"></i> Quick Actions</h3>
+        <ul class="sidebar-list">
+            <li><a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="{{ route('friends') }}"><i class="fas fa-users"></i> My Friends</a></li>
+        </ul>
     </div>
 
+    <!-- Help & Support -->
+    <div class="sidebar-card">
+        <h3><i class="fas fa-question-circle"></i> Help & Support</h3>
+        <ul class="sidebar-list">
+            <li><a href="#" onclick="openUserGuide(event)"><i class="fas fa-book"></i> User Guide</a></li>
+            <li><a href="#" onclick="alert('Contact feature coming soon!')"><i class="fas fa-envelope"></i> Contact Support</a></li>
+            <li><a href="#" onclick="alert('FAQ feature coming soon!')"><i class="fas fa-question"></i> FAQ</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- User Guide Modal -->
+<div id="userGuideModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeUserGuide()">&times;</span>
+        <h2><i class="fas fa-book"></i> User Guide</h2>
+        
+        <div class="guide-content">
+            <section class="guide-section">
+                <h3>Getting Started</h3>
+                <p>Welcome to the platform! Here's everything you need to know to get started.</p>
+            </section>
+
+            <section class="guide-section">
+                <h3>Dashboard Navigation</h3>
+                <ul>
+                    <li><strong>Dashboard:</strong> View your overview and recent activities</li>
+                    <li><strong>My Friends:</strong> Manage your friend connections</li>
+                </ul>
+            </section>
+
+            <section class="guide-section">
+                <h3>Managing Friends</h3>
+                <p>You can add, remove, and interact with friends through the Friends section.</p>
+            </section>
+
+            <section class="guide-section">
+                <h3>Need More Help?</h3>
+                <p>Contact our support team or check out the FAQ section for common questions.</p>
+            </section>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Modal Styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.guide-content {
+    margin-top: 20px;
+}
+
+.guide-section {
+    margin-bottom: 25px;
+}
+
+.guide-section h3 {
+    color: #4CAF50;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.guide-section p {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.guide-section ul {
+    margin-left: 20px;
+    color: #555;
+}
+
+.guide-section ul li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+</style>
+
+<script>
+function openUserGuide(event) {
+    event.preventDefault();
+    document.getElementById('userGuideModal').style.display = 'block';
+}
+
+function closeUserGuide() {
+    document.getElementById('userGuideModal').style.display = 'none';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('userGuideModal');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+</script>
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
 

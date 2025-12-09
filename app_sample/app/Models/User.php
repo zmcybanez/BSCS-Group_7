@@ -34,12 +34,24 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+<<<<<<< HEAD
     protected function casts(): array
     {
         return [
             'password' => 'hashed',
         ];
     }
+=======
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'password' => 'hashed',
+        'email_verified_at' => 'datetime',
+    ];
+>>>>>>> origin/branch-nasad
 
     // -----------------------------
     // Relationships
@@ -60,25 +72,43 @@ class User extends Authenticatable
     // Friendships where this user is the requester
     public function friendships()
     {
+<<<<<<< HEAD
         return $this->hasMany(Friendship::class, 'user_id', 'id');
+=======
+        // friendships where this user initiated the request
+        return $this->hasMany(Friendship::class, 'user_id', 'UserID');
+>>>>>>> origin/branch-nasad
     }
 
     // Friendships where this user is the addressee
     public function friendshipsAsAddressee()
     {
+<<<<<<< HEAD
         return $this->hasMany(Friendship::class, 'friend_id', 'id');
+=======
+        // friendships where this user was added/received the request
+        return $this->hasMany(Friendship::class, 'friend_id', 'UserID');
+>>>>>>> origin/branch-nasad
     }
 
     // Alias for sent friend requests
     public function sentFriendRequests()
     {
+<<<<<<< HEAD
         return $this->hasMany(Friendship::class, 'user_id', 'id');
+=======
+        return $this->hasMany(Friendship::class, 'user_id', 'UserID');
+>>>>>>> origin/branch-nasad
     }
 
     // Alias for received friend requests
     public function receivedFriendRequests()
     {
+<<<<<<< HEAD
         return $this->hasMany(Friendship::class, 'friend_id', 'id');
+=======
+        return $this->hasMany(Friendship::class, 'friend_id', 'UserID');
+>>>>>>> origin/branch-nasad
     }
 
     // Messages sent by this user
